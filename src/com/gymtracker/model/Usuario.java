@@ -20,8 +20,8 @@ public class Usuario {
 		this.id = id;
 		this.documento = documento;
 		setNombre(nombre);
-		this.edad = edad;
-		this.estatura = estatura;
+		setEdad(edad);
+		setEstatura(estatura);
 		setObjetivo (objetivo);
 	}
 	public int getId() {
@@ -45,6 +45,18 @@ public class Usuario {
 		return edad;
 	}
 	
+	public void setEdad(int edad) {
+		if (edad <=0 || edad>120 ) {
+			throw new IllegalArgumentException("La edad debe estar entre 0 y 120");
+		}
+		this.edad = edad;
+	}
+	public void setEstatura(double estatura) {
+		if (estatura<=0 || estatura >230) {
+			throw new IllegalArgumentException("La estatura debe estar entre 0 y 2.30m");
+		}
+		this.estatura = estatura;
+	}
 	public double getEstatura() {
 		return estatura;
 	}
