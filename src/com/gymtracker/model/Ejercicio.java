@@ -19,8 +19,8 @@ public class Ejercicio {
 		this.id = id;
 		this.codigo = codigo;
 		setNombre(nombre);
-		this.grupoMuscular = grupoMuscular;
-		this.categoria = categoria;
+		setGrupoMuscular(grupoMuscular);
+		setCategoria(categoria);
 		this.tipo = tipo;
 	}
 	public int getId() {
