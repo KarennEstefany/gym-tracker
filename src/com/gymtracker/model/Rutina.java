@@ -1,6 +1,6 @@
 package com.gymtracker.model;
 
-public class Rutina {
+public class SesionEntrenamiento {
 	private int id;
 	private String nombre; //Ejemplo : Día de pierna
 	private int usuarioId; 
