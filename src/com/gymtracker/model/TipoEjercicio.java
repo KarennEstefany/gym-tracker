@@ -1,5 +1,7 @@
 package com.gymtracker.model;
 
-public class TipoEjercicio {
+public enum TipoEjercicio {
+	PESO,TIEMPO //Como se mide el ejercicio, si por peso o tiempo
+	
 
 }

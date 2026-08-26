@@ -36,7 +36,7 @@ public class Ejercicio {
 	}
 	public void setNombre(String nombre) {
 	if (nombre ==null || nombre.trim().isEmpty()) {
-		throw new IllegalArgumentException ("El nombre no puede estar vacio");
+		throw new IllegalArgumentException ("El nombre del Ejercicio no puede estar vacio");
 	}
 	this.nombre = nombre;
 	}
