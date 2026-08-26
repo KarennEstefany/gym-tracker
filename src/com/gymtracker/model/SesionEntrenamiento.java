@@ -1,5 +1,6 @@
 package com.gymtracker.model;
 import java.time.LocalDate;
+
 public class Rutina {
 	private int id;
 	private LocalDate fecha; 
