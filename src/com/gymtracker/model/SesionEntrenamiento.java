@@ -1,11 +1,12 @@
 package com.gymtracker.model;
 import java.time.LocalDate;
 
-public class Rutina {
-	private int id;
+public class SesionEntrenamiento {
+	private final int id;
 	private LocalDate fecha; 
-	private int usuarioId; 
-	private int rutinaId; 
+	private final int usuarioId; 
+	private final int rutinaId;
+	
 	
 	//Falta el enum de estado
 	/**
@@ -14,31 +15,32 @@ public class Rutina {
 	 * @param usuarioId
 	 
 	 */
-	public Ejercicio(int id, int usuarioId, LocalDate fecha) {
+	public SesionEntrenamiento(int id,  LocalDate fecha, int usuarioId, int rutinaId) {
+		
+		 if (fecha == null) {
+	            throw new IllegalArgumentException("La fecha de la sesión no puede ser nula");
+	        }
 		this.id = id;
-		this.nombre = nombre;
-		setNombre(nombre);
-		this.usuarioId = usuairoId;
+		this.usuarioId = usuarioId;
+		this.fecha= fecha;
+		this.rutinaId = rutinaId;
 	}
 	public int getId() {
 		return id;
 	}
 	
-	public String getNombre() {
-		return nombre;
+	public int getUsuarioId() {
+		return usuarioId;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public LocalDate getFecha() {
+		return fecha;
 	}
-	public void setNombre(String nombre) {
-	if (nombre ==null || nombre.trim().isEmpty()) {
-		throw new IllegalArgumentException ("El nombre no puede estar vacío");
-	}
-	this.nombre = nombre;
+
+	public int getRutinaId() {
+		return rutinaId;
 	}
 	
-	
-	
+
 
 }
