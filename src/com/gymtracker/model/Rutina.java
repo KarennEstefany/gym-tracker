@@ -1,41 +1,64 @@
 package com.gymtracker.model;
 
-public class SesionEntrenamiento {
-	private int id;
+import com.gymtracker.exceptions.NombreNullException;
+import com.gymtracker.exceptions.DiaSemanaInvalidaException;
+
+
+
+public class Rutina {
+	private final int id;
 	private String nombre; //Ejemplo : Día de pierna
-	private int usuarioId; 
-	//Falta el enum de Días de semana
+	private final int usuarioId; 
+	private DiaSemana diaSemana; 
+	
 	/**
 	 * @param id
 	 * @param nombre
 	 * @param usuarioId
+	 * @param diaSemana
 	 
 	 */
-	public Ejercicio(int id, String nombre, int usuarioId) {
+	
+	public Rutina(int id, String nombre, int usuarioId, DiaSemana diaSemana) {
+		super();
 		this.id = id;
-		this.nombre = nombre;
 		setNombre(nombre);
-		this.usuarioId = usuairoId;
+		this.usuarioId = usuarioId;
+		setDiaSemana(diaSemana);
 	}
+
+	
 	public int getId() {
 		return id;
 	}
 	
+	
 	public String getNombre() {
 		return nombre;
+	}
+	
+	public int getUsuarioId() {
+		
+		return usuarioId;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public DiaSemana getDiaSemana() {
+		return diaSemana;
 	}
+	
+	public void setDiaSemana(DiaSemana diaSemana) {
+	       if (diaSemana == null) {
+	           throw new DiaSemanaInvalidaException("El día de la semana no puede ser nulo");
+	       }
+	       this.diaSemana = diaSemana;
+	}
+	
 	public void setNombre(String nombre) {
 	if (nombre ==null || nombre.trim().isEmpty()) {
-		throw new IllegalArgumentException ("El nombre no puede estar vacío");
+		throw new NombreNullException("El nombre no puede estar vacío");
 	}
 	this.nombre = nombre;
 	}
-	
-	
 	
 
 }
