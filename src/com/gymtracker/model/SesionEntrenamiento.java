@@ -13,11 +13,13 @@ public class SesionEntrenamiento {
 	private EstadoSesion estado;
 	
 	
-	//Falta el enum de estado
+
 	/**
 	 * @param id
 	 * @param nombre
 	 * @param usuarioId
+	 * @param rutinaId
+	 * @param estado
 	 
 	 */
 	public SesionEntrenamiento(int id,  LocalDate fecha, int usuarioId, int rutinaId, EstadoSesion estado) {
@@ -47,17 +49,20 @@ public class SesionEntrenamiento {
 		return rutinaId;
 	}
 	
+	
+	
 	public EstadoSesion getEstado() {
 		
 		return estado;
 	}
+	// Este método permite controlar el estado de la sesión
 	public void finalizarSesion() {
-		if (this.estado == EstadoSesion.FINALIZADA) {
+		if (this.estado == EstadoSesion.FINALIZADA) 
+		{
 			throw new SesionYaFinalizadaException("La sesión ya se encuentra finalizada");
 		}
 		this.estado = EstadoSesion.FINALIZADA;
 	}
 	
-
 
 }
