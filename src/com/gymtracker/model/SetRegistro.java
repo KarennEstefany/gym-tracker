@@ -108,7 +108,11 @@ public class SetRegistro {
 	 /**
  	 * @return the rir
  	 */
+	 
+	 //Se asume RIR en escala de 0 a 5 según la convención estándar de entrenamiento de fuerza. 
 	 public int getRir() {
+		 
+		 //pendiente por definir el rango del RIR 
 		 return rir;
 	 }
 
