@@ -2,6 +2,7 @@ package com.gymtracker.model;
 
 
 import com.gymtracker.exceptions.NumeroSetInvalidoException;
+import com.gymtracker.exceptions.RpeInvalidoException;
 
 public class SetRegistro {
 	
@@ -46,7 +47,6 @@ public class SetRegistro {
 			    throw new NumeroSetInvalidoException("El número de set debe ser mayor a cero");
 			}
 		
-		 
 		 this.numeroSet = numeroSet;
 		 
 	 }
@@ -98,6 +98,9 @@ public class SetRegistro {
  	 * @param rpe the rpe to set
  	 */
 	 public void setRpe(int rpe) {
+		 if (rpe < 1 || rpe > 10) {
+	            throw new RpeInvalidoException("RPE debe estar entre 1 y 10");
+	        }
 		 this.rpe = rpe;
 	 }
 
