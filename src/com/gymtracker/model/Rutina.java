@@ -46,13 +46,16 @@ public class Rutina {
 		return diaSemana;
 	}
 	
+	//Este método verifica que se ingrese un día de la semana válido, no nulo
 	public void setDiaSemana(DiaSemana diaSemana) {
 	       if (diaSemana == null) {
 	           throw new DiaSemanaInvalidaException("El día de la semana no puede ser nulo");
 	       }
 	       this.diaSemana = diaSemana;
 	}
+
 	
+	// Valida que el nombre no sea nulo
 	public void setNombre(String nombre) {
 	if (nombre ==null || nombre.trim().isEmpty()) {
 		throw new NombreNullException("El nombre no puede estar vacío");
