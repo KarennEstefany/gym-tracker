@@ -1,34 +1,61 @@
 package com.gymtracker.model;
 
 
+import com.gymtracker.exceptions.EjercicioInvalidoException;
 import com.gymtracker.exceptions.NumeroSetInvalidoException;
+import com.gymtracker.exceptions.RirInvalidoException;
 import com.gymtracker.exceptions.RpeInvalidoException;
+import com.gymtracker.exceptions.SesionInvalidaException;
 
-public class SetRegistro {
+public abstract class SetRegistro {
 	
 	 private final int id;
-	 private final int sesionId;
-	 private final int ejercicioId;
+	 private final SesionEntrenamiento sesion;
+	 private final Ejercicio ejercicio;
 	 private int numeroSet;
-	 private double peso;
-	 private int repeticiones;
 	 private int rpe;
 	 private int rir;
 	 
 	 
-	 public SetRegistro(int id, int sesionId, int ejercicioId, int numeroSet, double peso, int repeticiones, int rpe,
-			int rir) {
-		super();
+	 
+
+
+	 public SetRegistro(int id, SesionEntrenamiento sesion, Ejercicio ejercicio, int numeroSet, int rpe, int rir) {
+		
+		 
+		 if(sesion == null) {
+			 
+			 throw new SesionInvalidaException("El set debe estar asociado a una excepción");
+		 }
+		 
+		 if(ejercicio == null) {
+			 throw new EjercicioInvalidoException("El set debe estar asociado a un ejercicio");
+		 }
 		this.id = id;
-		this.sesionId = sesionId;
-		this.ejercicioId = ejercicioId;
-		this.numeroSet = numeroSet;
-		this.peso = peso;
-		this.repeticiones = repeticiones;
-		this.rpe = rpe;
-		this.rir = rir;
+		this.sesion = sesion;
+		this.ejercicio = ejercicio;
+		setNumeroSet(numeroSet);
+		setRpe(rpe);
+		setRir(rir);  // Se valida también cuando se crea el objeto 
+		
+	 }
+	 
+
+	 /**
+ 	 * @return the id
+ 	 */
+	 public int getId() {
+		 return id;
 	 }
 
+	 
+	 /**
+ 	 * @return the sesionId
+ 	 */
+	
+	 public SesionEntrenamiento getSesion() {
+		 return sesion;
+	 }
 
 	 /**
  	 * @return the numeroSet
@@ -52,39 +79,6 @@ public class SetRegistro {
 	 }
 
 	 
-			
-
-	 /**
- 	 * @return the peso
- 	 */
-	 public double getPeso() {
-		 return peso;
-	 }
-
-
-	 /**
- 	 * @param peso the peso to set
- 	 */
-	 public void setPeso(double peso) {
-		 this.peso = peso;
-	 }
-
-
-	 /**
- 	 * @return the repeticiones
- 	 */
-	 public int getRepeticiones() {
-		 return repeticiones;
-	 }
-
-
-	 /**
- 	 * @param repeticiones the repeticiones to set
- 	 */
-	 public void setRepeticiones(int repeticiones) {
-		 this.repeticiones = repeticiones;
-	 }
-
 
 	 /**
  	 * @return the rpe
@@ -112,7 +106,10 @@ public class SetRegistro {
 	 //Se asume RIR en escala de 0 a 5 según la convención estándar de entrenamiento de fuerza. 
 	 public int getRir() {
 		 
-		 //pendiente por definir el rango del RIR 
+		 if(rir<0 || rir > 5 ) {
+			 throw new RirInvalidoException("El rango estándar está entre 0 y 5 ");
+		 }
+		 
 		 return rir;
 	 }
 
@@ -125,29 +122,19 @@ public class SetRegistro {
 	 }
 
 
-	 /**
- 	 * @return the id
- 	 */
-	 public int getId() {
-		 return id;
-	 }
 
-
-	 /**
- 	 * @return the sesionId
- 	 */
-	 public int getSesionId() {
-		 return sesionId;
-	 }
 
 
 	 /**
  	 * @return the ejercicioId
  	 */
-	 public int getEjercicioId() {
-		 return ejercicioId;
+	 public Ejercicio getEjercicio() {
+		 return ejercicio;
 	 }
 	 
+	 //Método que deben implementar las dos clases que heredan de esta,
+	 //dependiendo de si se calcula por tiempo o peso 
+	 public abstract double calcularVolumen();
 	 
 	 
 	 
