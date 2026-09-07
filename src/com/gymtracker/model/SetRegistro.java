@@ -57,6 +57,15 @@ public abstract class SetRegistro {
 		 return sesion;
 	 }
 
+
+	 /**
+ 	 * @return the ejercicioId
+ 	 */
+	 public Ejercicio getEjercicio() {
+		 return ejercicio;
+	 }
+	 
+	 
 	 /**
  	 * @return the numeroSet
  	 */
@@ -122,16 +131,6 @@ public abstract class SetRegistro {
 	 }
 
 
-
-
-
-	 /**
- 	 * @return the ejercicioId
- 	 */
-	 public Ejercicio getEjercicio() {
-		 return ejercicio;
-	 }
-	 
 	 //Método que deben implementar las dos clases que heredan de esta,
 	 //dependiendo de si se calcula por tiempo o peso 
 	 public abstract double calcularVolumen();
