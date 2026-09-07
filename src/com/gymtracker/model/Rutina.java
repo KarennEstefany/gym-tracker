@@ -24,7 +24,7 @@ public class Rutina {
 		this.id = id;
 		setNombre(nombre);
 		if(usuario ==null) {
-			throw new UsuarioInvalidoException("No se puede crear una rutina si el usuario no existe.");
+			throw new UsuarioInvalidoException("La rutina debe estar asociada a un usuario.");
 		}
 		this.usuario = usuario;
 		setDiaSemana(diaSemana);
