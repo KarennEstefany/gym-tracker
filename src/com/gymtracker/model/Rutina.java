@@ -1,29 +1,32 @@
 package com.gymtracker.model;
 
-import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.DiaSemanaInvalidaException;
-
+import com.gymtracker.exceptions.NombreNullException;
+import com.gymtracker.exceptions.UsuarioInvalidoException;
 
 
 public class Rutina {
 	private final int id;
 	private String nombre; //Ejemplo : Día de pierna
-	private final int usuarioId; 
+	private final Usuario usuario; 
 	private DiaSemana diaSemana; 
 	
 	/**
 	 * @param id
 	 * @param nombre
-	 * @param usuarioId
+	 * @param usuario
 	 * @param diaSemana
 	 
 	 */
 	
-	public Rutina(int id, String nombre, int usuarioId, DiaSemana diaSemana) {
+	public Rutina(int id, String nombre, Usuario usuario, DiaSemana diaSemana) {
 		super();
 		this.id = id;
 		setNombre(nombre);
-		this.usuarioId = usuarioId;
+		if(usuario ==null) {
+			throw new UsuarioInvalidoException("No se puede crear una rutina si el usuario no existe.");
+		}
+		this.usuario = usuario;
 		setDiaSemana(diaSemana);
 	}
 
@@ -37,9 +40,9 @@ public class Rutina {
 		return nombre;
 	}
 	
-	public int getUsuarioId() {
+	public Usuario getUsuario() {
 		
-		return usuarioId;
+		return usuario;
 	}
 
 	public DiaSemana getDiaSemana() {
