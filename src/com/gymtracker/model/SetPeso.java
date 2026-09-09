@@ -1,6 +1,7 @@
 package com.gymtracker.model;
 
 import com.gymtracker.exceptions.PesoInvalidoException;
+
 import com.gymtracker.exceptions.RepeticionesInvalidasException;
 
 public class SetPeso extends SetRegistro{
@@ -12,6 +13,8 @@ public class SetPeso extends SetRegistro{
 
 	public SetPeso(int id, SesionEntrenamiento sesion, Ejercicio ejercicio, int numeroSet, int rpe, int rir, double peso, int repeticiones ) {
 		super(id, sesion, ejercicio, numeroSet, rpe, rir);
+		
+		
 		// TODO Auto-generated constructor stub
 		
 		setPeso(peso);
@@ -61,7 +64,7 @@ public class SetPeso extends SetRegistro{
 	 */
 	public void setRepeticiones(int repeticiones) {
 		
-		if(peso <= 0) {
+		if(repeticiones <= 0) {
 			throw new RepeticionesInvalidasException("Las repeticiones deben ser mayores a 0");
 		}
 	
