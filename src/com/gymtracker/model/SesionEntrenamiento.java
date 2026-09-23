@@ -16,7 +16,7 @@ public class SesionEntrenamiento {
 	private final Rutina rutina;
 	private EstadoSesion estado;
 	
-
+    
 	/**
 	 * @param id
 	 * @param nombre
@@ -25,7 +25,7 @@ public class SesionEntrenamiento {
 	 * @param estado
 	 
 	 */
-	public SesionEntrenamiento(int id,  LocalDate fecha, Usuario usuario, Rutina rutina, EstadoSesion estado) {
+	public SesionEntrenamiento(int id,  LocalDate fecha, Usuario usuario, Rutina rutina) {
 		
 		
 		if(usuario == null) {
@@ -55,26 +55,26 @@ public class SesionEntrenamiento {
 		this.estado  = EstadoSesion.EN_CURSO;
 	}
 	public int getId() {
-		return id;
+		return this.id;
 	}
 	
 	public Usuario getUsuario() {
-		return usuario;
+		return this.usuario;
 	}
 
 	public LocalDate getFecha() {
-		return fecha;
+		return this.fecha;
 	}
 
 	public Rutina getRutina() {
-		return rutina;
+		return this.rutina;
 	}
 	
 	
 	
 	public EstadoSesion getEstado() {
 		
-		return estado;
+		return this.estado;
 	}
 	// Este método permite controlar el estado de la sesión
 	public void finalizarSesion() {

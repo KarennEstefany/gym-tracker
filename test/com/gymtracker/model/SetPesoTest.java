@@ -15,7 +15,7 @@ class SetPesoTest {
 	private Rutina rutina;
 	private SesionEntrenamiento sesion;
 	private Ejercicio ejercicio;
-	
+	 
 	
 
 	@BeforeEach
@@ -57,7 +57,7 @@ class SetPesoTest {
 			
 		});
 	}
-
+    
 	
 	@Test
 	void constructor_lanzaExcepcion_siRepeticionesSonCero() {
@@ -66,12 +66,12 @@ class SetPesoTest {
 			new SetPeso(1, sesion, ejercicio, 1, 8,2, 80.0, 0);
 		});
 	}
-	
+	  
 	@Test 
 	void constructor_lanzaExcepcionsiRpeFueraDeRango() {
 		 assertThrows(RpeInvalidoException.class, () -> {
 	            new SetPeso(1, sesion, ejercicio, 1, 11, 2, 80.0, 10);
 	        });
-	}
+	}		
 
 }

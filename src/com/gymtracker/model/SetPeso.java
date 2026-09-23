@@ -11,6 +11,7 @@ public class SetPeso extends SetRegistro{
 	private int repeticiones;
 	
 
+	
 	public SetPeso(int id, SesionEntrenamiento sesion, Ejercicio ejercicio, int numeroSet, int rpe, int rir, double peso, int repeticiones ) {
 		super(id, sesion, ejercicio, numeroSet, rpe, rir);
 		

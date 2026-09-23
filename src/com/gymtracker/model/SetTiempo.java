@@ -11,11 +11,11 @@ public class SetTiempo extends SetRegistro{
 		// TODO Auto-generated constructor stub
 		
 		setDuracionSegundos(duracionSegundos);
-		
+		 
 	}
 	
 	
-
+ 
 	/**
 	 * @return the duracionSegundos
 	 */
@@ -33,11 +33,12 @@ public class SetTiempo extends SetRegistro{
 		if(duracionSegundos <= 0 ) {
 			
 			throw new DuracionInvalidaException("La duración debe ser mayor a 0 segundos");
-		}
+		} 
 		this.duracionSegundos = duracionSegundos;
+		
+
 	}
-
-
+ 
 
 	@Override
 	public double calcularVolumen() {

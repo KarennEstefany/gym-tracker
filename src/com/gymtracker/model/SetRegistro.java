@@ -16,9 +16,6 @@ public abstract class SetRegistro {
 	 private int rpe;
 	 private int rir;
 	 
-	 
-	 
-
 
 	 public SetRegistro(int id, SesionEntrenamiento sesion, Ejercicio ejercicio, int numeroSet, int rpe, int rir) {
 		
