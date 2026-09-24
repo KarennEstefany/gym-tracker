@@ -29,7 +29,7 @@ class SetTiempoTest {
 		
 		usuario  = new Usuario (1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA);
 		rutina = new Rutina (1, "Día de pierna", usuario, DiaSemana.LUNES);
-		sesion = new SesionEntrenamiento(1, java.time.LocalDate.now(), usuario, rutina, EstadoSesion.EN_CURSO);
+		sesion = new SesionEntrenamiento(1, java.time.LocalDate.now(), usuario, rutina);
 		ejercicio = new Ejercicio(1, "PL-01", "Plancha", "Abdomen", "Core", TipoEjercicio.TIEMPO);
 		
 		//Aquí se van a crear las sesiones de entrenamiento en curso

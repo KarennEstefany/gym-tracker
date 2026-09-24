@@ -15,10 +15,13 @@ import com.gymtracker.exceptions.UsuarioInvalidoException;
 
 class SesionEntrenamientoTest {
 	
+	//Creamos las variables de manera global para que se puedan utilizar en toda la clase
+	
 	Usuario usuario;
 	Rutina rutina;
 	
 
+	//
 	@BeforeEach
 	void setUp() throws Exception {
 		
@@ -26,12 +29,12 @@ class SesionEntrenamientoTest {
 		rutina = new Rutina(2, "Día de pierna", usuario, DiaSemana.MARTES);
 		
 	}
-
+ 
 	@Test
 	void constructorLanza_ExcepcionSiUsuarioEsNulo() {
 		
 		assertThrows(UsuarioInvalidoException.class, () ->{
-		
+		 
 			SesionEntrenamiento sesion1 = new SesionEntrenamiento(1, LocalDate.of(2026, 9, 23), null, rutina);
 			
 		
@@ -49,7 +52,7 @@ class SesionEntrenamientoTest {
 		
 		});
 		
-	}
+	} 
 	 
 	@Test
 	void constructorLanza_ExcepcionSiFechaEsNula() {
@@ -79,6 +82,8 @@ class SesionEntrenamientoTest {
 		 sesion1.finalizarSesion();
 		assertEquals(EstadoSesion.FINALIZADA, sesion1.getEstado());
 	}
+	
+	
 	
 	@Test 
 	
