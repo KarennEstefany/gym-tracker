@@ -1,5 +1,9 @@
 package com.gymtracker.model;
 
+import com.gymtracker.exceptions.CategoriaInvalidaException;
+import com.gymtracker.exceptions.GrupoMuscularInvalidoException;
+import com.gymtracker.exceptions.NombreNullException;
+
 public class Ejercicio {
 	private int id;
 	private String codigo;
@@ -36,7 +40,7 @@ public class Ejercicio {
 	}
 	public void setNombre(String nombre) {
 	if (nombre ==null || nombre.trim().isEmpty()) {
-		throw new IllegalArgumentException ("El nombre del Ejercicio no puede estar vacio");
+		throw new NombreNullException("El nombre del Ejercicio no puede estar vacio");
 	}
 	this.nombre = nombre;
 	}
@@ -45,7 +49,7 @@ public class Ejercicio {
 	}
 	public void setGrupoMuscular(String grupoMuscular) {
 		if (grupoMuscular ==null || grupoMuscular.trim().isEmpty()) {
-			throw new IllegalArgumentException ("Ingrese el grupo muscular que trabaja el ejercicio (ej. Cuadriceps");
+			throw new GrupoMuscularInvalidoException("Ingrese el grupo muscular que trabaja el ejercicio (ej. Cuadriceps");
 		
 		}
 		this.grupoMuscular = grupoMuscular;
@@ -55,7 +59,7 @@ public class Ejercicio {
 	}
 	public void setCategoria(String categoria) {
 		if (categoria==null || categoria.trim().isEmpty()) {
-			throw new IllegalArgumentException ("Ingrese la categoria a la que pertenece el ejercicio (ej. Piernas/Tren Inferior");
+			throw new CategoriaInvalidaException("Ingrese la categoria a la que pertenece el ejercicio (ej. Piernas/Tren Inferior");
 		}
 		this.categoria = categoria;
 	}

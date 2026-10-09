@@ -1,5 +1,9 @@
 package com.gymtracker.model;
 
+import com.gymtracker.exceptions.EdadEstaturaInvalidaException;
+import com.gymtracker.exceptions.NombreNullException;
+import com.gymtracker.exceptions.ObjetivoInvalidoException;
+
 public class Usuario {
 	private int id;
 	private String documento;
@@ -36,7 +40,7 @@ public class Usuario {
 	
 	public void setNombre(String nombre) {
 		if (nombre == null || nombre.trim().isEmpty()) {
-			throw new IllegalArgumentException("El nombre del usuario no puede estar vacio");
+			throw new NombreNullException("El nombre del usuario no puede estar vacio");
 		}
 		
 		this.nombre = nombre;
@@ -47,13 +51,13 @@ public class Usuario {
 	
 	public void setEdad(int edad) {
 		if (edad <=0 || edad>120 ) {
-			throw new IllegalArgumentException("La edad debe estar entre 0 y 120");
+			throw new EdadEstaturaInvalidaException("La edad debe estar entre 1 y 120");
 		}
 		this.edad = edad;
 	}
 	public void setEstatura(double estatura) {
-		if (estatura<=0 || estatura >230) {
-			throw new IllegalArgumentException("La estatura debe estar entre 0 y 2.30m");
+		if (estatura<=0.49 || estatura >2.30) {
+			throw new EdadEstaturaInvalidaException("La estatura debe estar entre 50 y 2.30m");
 		}
 		this.estatura = estatura;
 	}
@@ -65,7 +69,7 @@ public class Usuario {
 	}
 	public void setObjetivo(Objetivo objetivo) {
 		if (objetivo== null) {
-			throw new IllegalArgumentException("El objetivo del usuario no puede estar vacio");
+			throw new ObjetivoInvalidoException("El objetivo del usuario no puede estar vacio");
 		}
 		this.objetivo = objetivo;
 	}

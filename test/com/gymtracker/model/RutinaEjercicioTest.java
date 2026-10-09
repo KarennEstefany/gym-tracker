@@ -4,14 +4,14 @@ package com.gymtracker.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.gymtracker.exceptions.NumeroSetInvalidoException;
 import com.gymtracker.exceptions.OrdenInvalidoException;
 import com.gymtracker.exceptions.RepeticionesInvalidasException;
 
-public class RutinaEjercicioTest {
+class RutinaEjercicioTest {
 	RutinaEjercicio rutina1;
 	
 	@BeforeEach
