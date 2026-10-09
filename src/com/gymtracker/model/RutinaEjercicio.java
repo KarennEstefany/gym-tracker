@@ -1,12 +1,13 @@
 package com.gymtracker.model;
 
 import com.gymtracker.exceptions.NumeroSetInvalidoException;
+import com.gymtracker.exceptions.ObjetoNuloException;
 import com.gymtracker.exceptions.RepeticionesInvalidasException;
 import com.gymtracker.exceptions.OrdenInvalidoException;
 public class RutinaEjercicio {
 	private int id;
-	private int rutinaId;
-	private int ejercicioId;
+	private final Rutina rutina;
+	private final Ejercicio ejercicio;
 	private int ordenEnRutina;
 	private int setsObjetivo;
 	private int repsObjetivo;
@@ -18,11 +19,11 @@ public class RutinaEjercicio {
 	 * @param setsObjetivo
 	 * @param repsObjetivo
 	 */
-	public RutinaEjercicio(int id, int rutinaId, int ejercicioId, int ordenEnRutina, int setsObjetivo,
+	public RutinaEjercicio(int id, Rutina rutina, Ejercicio ejercicio, int ordenEnRutina, int setsObjetivo,
 			int repsObjetivo) {
 		this.id = id;
-		this.rutinaId = rutinaId;
-		this.ejercicioId = ejercicioId;
+		this.rutina = verificarNoNulo(rutina,"la rutina" );
+		this.ejercicio = verificarNoNulo(ejercicio,"el ejercicio" );
 		setOrdenEnRutina(ordenEnRutina);
 		setSetsObjetivo(setsObjetivo);
 		setRepsObjetivo(repsObjetivo);
@@ -30,15 +31,15 @@ public class RutinaEjercicio {
 	public int getId() {
 		return id;
 	}
-	public int getRutinaId() {
-		return rutinaId;
-	}
-	public int getEjercicioId() {
-		return ejercicioId;
-	}
+	public Rutina getRutina() { 
+		return rutina; }
+	public Ejercicio getEjercicio() {
+		return ejercicio; }
+
 	public int getOrdenEnRutina() {
 		return ordenEnRutina;
 	}
+
 	public void setOrdenEnRutina(int ordenEnRutina) {
 		//verificarOrden(ordenEnRutina);
 		if(ordenEnRutina <= 0 || ordenEnRutina >10) {
@@ -68,10 +69,15 @@ public class RutinaEjercicio {
 		}
 		this.repsObjetivo = repsObjetivo;
 	}
-	
+	private static <T> T verificarNoNulo(T objeto, String campo) {
+		if (objeto == null) {
+			throw new ObjetoNuloException("El campo " + campo + " no puede ser nulo");
+		}
+		return objeto;
+	}
 	@Override
 	public String toString() {
-		return "RutinaEjercicio [id=" + id + ", rutinaId=" + rutinaId + ", ejercicioId=" + ejercicioId
+		return "RutinaEjercicio [id=" + id + ", rutina=" + rutina.getNombre()+ ", ejercicio=" + ejercicio.getNombre()
 				+ ", ordenEnRutina=" + ordenEnRutina + ", setsObjetivo=" + setsObjetivo + ", repsObjetivo="
 				+ repsObjetivo + "]";
 	}
