@@ -5,62 +5,54 @@ import com.gymtracker.exceptions.PilaVaciaException;
 public class PilaAcciones<T>{
 	
 	
-	private Nodo<T> tope;
-	private int tamanio;
+	private final ListaEnlazada<T> lista;
 	
 	
 	public PilaAcciones() {
-		super();
-		this.tope = null;
-		this.tamanio = 0;
+		
+		this.lista = new ListaEnlazada<>();
 	}
 	
 	
 	public void push(T dato) {
 		
 		
-		Nodo<T> nuevoNodo = new Nodo<>(dato);
-		
-		nuevoNodo.setSiguiente(tope);
-		tope  = nuevoNodo;
-		tamanio ++;
+		lista.agregarAlInicio(dato);
 	}
+	
+	
 	
 	public T pop() {
 		
-		if(estaVacia()) {
-			
-			throw new PilaVaciaException("La pila está vacía.");
-			
-		}
+		 if (estaVacia()) {
+	            throw new PilaVaciaException("La pila está vacía: no hay acciones para deshacer");
+	        }
 		
-		T dato = tope.getDato();
-		tope = tope.getSiguiente();
-		tamanio --;
-		return dato;
+		return lista.eliminarPrimero();
+		
 	}
 	
 	
 	public T verTope() {
-		
+		 
 		if(estaVacia()) {
 			
 			throw new PilaVaciaException("La pila está vacía.");
 			
 		}
 		
-		return tope.getDato();
+		return lista.obtenerPrimero();
 	}
 	
 	
 	public int darTamanio() {
 		
-		return tamanio;
+		return lista.darTamanio();
 	}
 	
 	public boolean estaVacia() {
 		
-		return tope == null;
+		return lista.estaVacia();
 	}
 	
 	
