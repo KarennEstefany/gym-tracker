@@ -36,14 +36,13 @@ public class SesionEntrenamiento {
 		}
 		
 		
-		//TODO
+		
 		
 		//Aquí se verifica si la rutina pertenece al mismo usuario,
-		//sin embargo, para poder implementarlo, es necesario sobrescribir equals() 
-		//y por lo tanto, también hashCode(). Hay que determinar cuál será el identificador del objeto ( documento o Id ) 
-	    /*if (!rutina.getUsuario().equals(usuario)) 
+		// Se verifica mediante el documento del usuario  
+	    if (!rutina.getUsuario().equals(usuario)) {
 	        throw new UsuarioInvalidoException("La rutina no pertenece al usuario indicado");
-	    }*/ 
+	    } 
 		
 		 if (fecha == null) {
 	            throw new FechaInvalidaException("La fecha de la sesión no puede ser nula");
