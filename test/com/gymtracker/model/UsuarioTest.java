@@ -1,5 +1,6 @@
 package com.gymtracker.model;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -78,6 +79,30 @@ class UsuarioTest {
 		
 		assertThrows(EdadEstaturaInvalidaException.class, () ->{usuario.setEstatura(2.4);
 		});
+	}
+	
+	@Test
+	void equals_mismoDocumento_sonIguales() {
+	    Usuario a = new Usuario(1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA);
+	    Usuario b = new Usuario(2, "123", "Ana Maria", 30, 1.70, Objetivo.FUERZA);
+
+	    assertEquals(a, b);
+	}
+
+	@Test
+	void equals_distintoDocumento_noSonIguales() {
+	    Usuario a = new Usuario(1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA);
+	    Usuario b = new Usuario(1, "456", "Ana", 25, 1.65, Objetivo.HIPERTROFIA);
+
+	    assertNotEquals(a, b);
+	}
+
+	@Test
+	void hashCode_usuariosIguales_tienenElMismoHashCode() {
+	    Usuario a = new Usuario(1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA);
+	    Usuario b = new Usuario(2, "123", "Otra", 40, 1.80, Objetivo.FUERZA);
+
+	    assertEquals(a.hashCode(), b.hashCode());
 	}
 
 }
