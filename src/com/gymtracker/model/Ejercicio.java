@@ -66,6 +66,12 @@ public class Ejercicio {
 	public TipoEjercicio getTipo() {
 		return tipo;
 	}
+	@Override
+	public String toString() {
+		return "Ejercicio [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + ", grupoMuscular=" + grupoMuscular
+				+ ", categoria=" + categoria + ", tipo=" + tipo + "]";
+	}
+	
 	
 	
 
