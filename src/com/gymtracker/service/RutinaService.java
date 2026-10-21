@@ -105,9 +105,11 @@ public class RutinaService {
     public Optional<Rutina> buscarRutinaPorDia(Usuario usuario, DiaSemana dia) {
         validarUsuario(usuario);
         
+
         // 1. Recorremos la lista 
         for (Rutina r : rutinas) {
             // 2. Evaluamos la condición  para cada rutina
+
             if (r.getUsuario().equals(usuario) && r.getDiaSemana() == dia) {
                 // 3. Si la encontramos, la envolvemos en un Optional y la retornamos de inmediato
                 return Optional.of(r);
@@ -121,7 +123,11 @@ public class RutinaService {
     
     
     /**
+<<<<<<< HEAD
      * Lista las rutinas asociadas a un usuario 
+=======
+     * 
+>>>>>>> 096cb5b667e36b6c250e94b46c7c6048c28060d0
      * @param usuario
      * @return resultado 
      */
