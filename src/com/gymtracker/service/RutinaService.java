@@ -123,11 +123,9 @@ public class RutinaService {
     
     
     /**
-<<<<<<< HEAD
+
      * Lista las rutinas asociadas a un usuario 
-=======
-     * 
->>>>>>> 096cb5b667e36b6c250e94b46c7c6048c28060d0
+
      * @param usuario
      * @return resultado 
      */
