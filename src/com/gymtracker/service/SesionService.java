@@ -30,7 +30,7 @@ public class SesionService {
 	
 	}
 	/**
-	 *
+	 * 
 	 * Deshace el último set registrado en la sesionActiva 
 	 * 
 	 */

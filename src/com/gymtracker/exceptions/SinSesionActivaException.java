@@ -11,6 +11,6 @@ public class SinSesionActivaException extends GymTrackerException{
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
-	
+	 
 	
 }

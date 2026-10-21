@@ -9,7 +9,7 @@ public class UsuarioInvalidoException extends GymTrackerException {
 
 	public UsuarioInvalidoException(String message) {
 		super(message);
-	}
+	} 
 
 	
 }
