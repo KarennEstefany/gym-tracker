@@ -30,7 +30,7 @@ public class SesionService {
 	
 	}
 	/**
-	 *
+	 * 
 	 * Deshace el último set registrado en la sesionActiva 
 	 * 
 	 */
@@ -56,9 +56,9 @@ public class SesionService {
 		
         // 3. Quitar el set del final del historial
 		historial.removeLast();
-		
+		 
         // 4. Devolver el set planeado al FRENTE de la cola
-		//colaPendientes.encolarAlFrente(accion.getSetPlaneado());
+		colaPendientes.encolarAlFrente(accion.getSetPlaneado());
     } 
 	
 	
