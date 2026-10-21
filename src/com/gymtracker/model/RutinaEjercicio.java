@@ -1,32 +1,33 @@
 package com.gymtracker.model;
 
 import com.gymtracker.exceptions.NumeroSetInvalidoException;
+
 import com.gymtracker.exceptions.ObjetoNuloException;
-import com.gymtracker.exceptions.RepeticionesInvalidasException;
 import com.gymtracker.exceptions.OrdenInvalidoException;
+
 public class RutinaEjercicio {
 	private int id;
 	private final Rutina rutina;
 	private final Ejercicio ejercicio;
 	private int ordenEnRutina;
 	private int setsObjetivo;
-	private int repsObjetivo;
+	private int objetivo;
 	/**
 	 * @param id
 	 * @param rutinaId
 	 * @param ejercicioId
 	 * @param ordenEnRutina
 	 * @param setsObjetivo
-	 * @param repsObjetivo
+	 * @param objetivo
 	 */
 	public RutinaEjercicio(int id, Rutina rutina, Ejercicio ejercicio, int ordenEnRutina, int setsObjetivo,
-			int repsObjetivo) {
+			int objetivo) {
 		this.id = id;
 		this.rutina = verificarNoNulo(rutina,"la rutina" );
 		this.ejercicio = verificarNoNulo(ejercicio,"el ejercicio" );
 		setOrdenEnRutina(ordenEnRutina);
 		setSetsObjetivo(setsObjetivo);
-		setRepsObjetivo(repsObjetivo);
+		setObjetivo(objetivo);
 	}
 	public int getId() {
 		return id;
@@ -58,17 +59,16 @@ public class RutinaEjercicio {
 		}
 		this.setsObjetivo = setsObjetivo;
 	}
-	public int getRepsObjetivo() {
-		return repsObjetivo;
+	public int getObjetivo() {
+		return objetivo;
 	}
-	public void setRepsObjetivo(int repsObjetivo) {
+	public void setObjetivo(int objetivo) {
 		//verificarRango(repsObjetivo, "Repeticiones objetivo ");
-		if (repsObjetivo <=0 || repsObjetivo>30) {
-			throw new RepeticionesInvalidasException ("Reps objetivo no validas ");
 		
-		}
-		this.repsObjetivo = repsObjetivo;
+		this.objetivo = ejercicio.verificarObjetivo(objetivo);
 	}
+	
+	
 	private static <T> T verificarNoNulo(T objeto, String campo) {
 		if (objeto == null) {
 			throw new ObjetoNuloException("El campo " + campo + " no puede ser nulo");
@@ -78,9 +78,10 @@ public class RutinaEjercicio {
 	@Override
 	public String toString() {
 		return "RutinaEjercicio [id=" + id + ", rutina=" + rutina.getNombre()+ ", ejercicio=" + ejercicio.getNombre()
-				+ ", ordenEnRutina=" + ordenEnRutina + ", setsObjetivo=" + setsObjetivo + ", repsObjetivo="
-				+ repsObjetivo + "]";
+				+ ", ordenEnRutina=" + ordenEnRutina + ", setsObjetivo=" + setsObjetivo + ", objetivo="
+				+ objetivo + "]";
 	}
+	
 	
 
 }

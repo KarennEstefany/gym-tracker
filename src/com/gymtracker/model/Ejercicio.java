@@ -3,6 +3,7 @@ package com.gymtracker.model;
 import com.gymtracker.exceptions.CategoriaInvalidaException;
 import com.gymtracker.exceptions.GrupoMuscularInvalidoException;
 import com.gymtracker.exceptions.NombreNullException;
+import com.gymtracker.exceptions.ObjetivoInvalidoException;
 
 public class Ejercicio {
 	private int id;
@@ -65,6 +66,24 @@ public class Ejercicio {
 	}
 	public TipoEjercicio getTipo() {
 		return tipo;
+	}
+	
+	/**
+	 *Valida el objetivo de acuerdo con el tipo de ejercicio (TIEMPO o PESO) 
+	 *Si es de tipo PESO: no puede exceder 30 repeticiones 
+	 *Si es de tipo TIEMPO: no puede exceder los 600 segundos 
+	 *Lanza una excepcion de ObjetivoInvalidoException 
+	 * @param objetivo recibe el objetivo que ingresa el usuario 
+	 * @return objetivo retorna el mismo objetivo una vez se ha validado 
+	 */
+	public int verificarObjetivo(int objetivo) {
+		
+		int maximo = (tipo ==TipoEjercicio.PESO) ? 30 : 600;
+		
+		if(objetivo <=0 || objetivo>maximo) {
+			throw new ObjetivoInvalidoException("Objetivo no válido para este ejercicio");
+		}
+		return objetivo;
 	}
 	@Override
 	public String toString() {
