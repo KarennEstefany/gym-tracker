@@ -44,7 +44,7 @@ public class SesionEntrenamiento {
 	        throw new UsuarioInvalidoException("La rutina no pertenece al usuario indicado");
 	    } 
 		
-		 if (fecha == null) {
+		 if (fecha == null) { 
 	            throw new FechaInvalidaException("La fecha de la sesión no puede ser nula");
 	        }
 		this.id = id;
