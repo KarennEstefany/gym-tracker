@@ -1,0 +1,4 @@
+SENT-01,Sentadilla,Piernas/Tren Inferior,Cuádriceps,PESO
+PRES-01,Press banca,Pecho,Pectoral,PESO
+REMO-01,Remo con barra,Espalda,Dorsal,PESO
+PLAN-01,Plancha,Core,Abdomen,TIEMPO
