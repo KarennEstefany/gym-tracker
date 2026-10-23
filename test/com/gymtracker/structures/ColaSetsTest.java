@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -69,11 +71,22 @@ public class ColaSetsTest {
 		assertFalse(cola.estaVacia());
 		assertEquals(1, cola.darTamanio());
 	}
+	
+	@Test
+	void probarEncolarAlFrente() {
+	 
+	    cola.encolar("Elemento1"); // Queda atrás
+	    cola.encolarAlFrente("Elemento2"); 
+	    assertEquals(2, cola.darTamanio());
+
+	    assertEquals("Elemento2", cola.desencolar());
+	}
+	
 	@Test
 	void ordenFIFO() {
 		cola.encolar("Primero");
 		cola.encolar("Segundo");
-		cola.encolar("Tercero");
+		cola.encolar("Tercero"); 
 		
 		assertEquals(3, cola.darTamanio());
 		assertEquals("Primero", cola.desencolar());

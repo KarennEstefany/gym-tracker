@@ -14,7 +14,7 @@ public class SetTiempo extends SetRegistro{
 		 
 	}
 	
-	
+	 
  
 	/**
 	 * @return the duracionSegundos

@@ -30,7 +30,7 @@ class SesionEntrenamientoTest {
 		
 	}
  
-	@Test
+	@Test	
 	void constructorLanza_ExcepcionSiUsuarioEsNulo() {
 		
 		assertThrows(UsuarioInvalidoException.class, () ->{
