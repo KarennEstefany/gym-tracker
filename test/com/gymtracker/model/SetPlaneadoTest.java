@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.gymtracker.exceptions.EjercicioInvalidoException;
 import com.gymtracker.exceptions.NumeroSetInvalidoException;
+import com.gymtracker.exceptions.ObjetivoInvalidoException;
 import com.gymtracker.exceptions.RepeticionesInvalidasException;
 
 public class SetPlaneadoTest {
@@ -26,7 +27,7 @@ public class SetPlaneadoTest {
 	void constructorValido() {
 		assertEquals(ejercicio, set.getEjercicio());
 		assertEquals(2, set.getNumeroSet());
-		assertEquals(12, set.getRepsObjetivo());
+		assertEquals(12, set.getObjetivo());
 	}
 	@Test
 	void constructorEjercicioNulo() {
@@ -59,26 +60,26 @@ public class SetPlaneadoTest {
 	
 	@Test
 	void constructorRepsCero() {
-		assertThrows(RepeticionesInvalidasException.class, ()-> new SetPlaneado(2, ejercicio, 0));
+		assertThrows(ObjetivoInvalidoException.class, ()-> new SetPlaneado(2, ejercicio, 0));
 	}
 	
 	@Test
 	void constructorRepsNegativas() {
-		assertThrows(RepeticionesInvalidasException.class, ()-> new SetPlaneado(2, ejercicio, -1));
+		assertThrows(ObjetivoInvalidoException.class, ()-> new SetPlaneado(2, ejercicio, -1));
 	}
 	@Test
 	void constructorRepsEncimaDelMaximo() {
-		assertThrows(RepeticionesInvalidasException.class, ()-> new SetPlaneado(2, ejercicio, 34));
+		assertThrows(ObjetivoInvalidoException.class, ()-> new SetPlaneado(2, ejercicio, 34));
 	}
 	@Test 
 	void constructorRepsBordeSuperior() {
 		SetPlaneado serie1= new SetPlaneado(3, ejercicio, 30);
-		assertEquals(30, serie1.getRepsObjetivo());
+		assertEquals(30, serie1.getObjetivo());
 	}
 	@Test 
 	void constructorRepsBordeInferior() {
 		SetPlaneado serie1= new SetPlaneado(3, ejercicio, 1);
-		assertEquals(1, serie1.getRepsObjetivo());
+		assertEquals(1, serie1.getObjetivo());
 	}
 	
 	@Test
@@ -88,5 +89,18 @@ public class SetPlaneadoTest {
 		assertTrue(texto.contains("12"));
 		assertTrue(texto.contains("2"));
 	}
+
+	@Test
+	void constructor_ejercicioDeTiempo_aceptaSegundos() {
+
+	    Ejercicio plancha = new Ejercicio(2, "PLAN-01", "Plancha", "Abdomen", "Core", TipoEjercicio.TIEMPO);
+	    assertEquals(60, new SetPlaneado(1, plancha, 60).getObjetivo());
+	}
 	
+	@Test
+	void constructor_ejercicioDePeso_rechazaUnValorEnSegundos() {
+																																									
+		Ejercicio sentadilla = new Ejercicio(1, "SENT-01", "Sentadilla", "Cuádriceps", "Piernas", TipoEjercicio.PESO);
+	    assertThrows(ObjetivoInvalidoException.class, () -> new SetPlaneado(1, sentadilla, 60));
+	}
 }

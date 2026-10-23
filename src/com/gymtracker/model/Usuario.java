@@ -3,6 +3,7 @@ package com.gymtracker.model;
 import com.gymtracker.exceptions.EdadEstaturaInvalidaException;
 import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
+import java.util.Objects;
 
 public class Usuario {
 	private int id;
@@ -73,6 +74,25 @@ public class Usuario {
 		}
 		this.objetivo = objetivo;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) {
+	        return true;
+	    }
+	    if (o == null || getClass() != o.getClass()) {
+	        return false;
+	    }
+	    Usuario otro = (Usuario) o;
+	    return Objects.equals(documento, otro.documento);
+	}
+
+	@Override
+	public int hashCode() {
+	    return Objects.hash(documento);
+	}
+	
+	
 	
 
 }

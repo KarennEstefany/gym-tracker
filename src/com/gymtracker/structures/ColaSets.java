@@ -13,12 +13,16 @@ public class ColaSets<T> {
 			return true;
 		}
 		return false;
-	}
+	} 
 	public int darTamanio() {
 		return elementos.darTamanio();
 	}
 	public void encolar(T elemento) {
 		elementos.agregarAlFinal(elemento);
+	}
+	
+	public void encolarAlFrente(T elemento) {
+		elementos.agregarAlInicio(elemento);
 	}
 	public T desencolar() {
 		if (estaVacia()) {
