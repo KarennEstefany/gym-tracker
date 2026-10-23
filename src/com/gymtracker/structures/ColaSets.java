@@ -6,7 +6,7 @@ import com.gymtracker.exceptions.ObjetoNuloException;
 
 
 public class ColaSets<T> {
-	private ListaEnlazada<T> elementos = new ListaEnlazada();
+	private final ListaEnlazada<T> elementos = new ListaEnlazada<>();
 	
 	public boolean estaVacia() {
 		if (elementos.estaVacia()) {
@@ -31,11 +31,11 @@ public class ColaSets<T> {
 		return elementos.eliminarPrimero();
 		
 	}
-	public void verTope() {
+	public T verTope() {
 		if (estaVacia()) {
 			throw new EstructuraVaciaException("La cola esta vacia, no se puede ver el tope");
 		}
-		elementos.obtenerPrimero();
+		return elementos.obtenerPrimero();
 	}
 	
 }
