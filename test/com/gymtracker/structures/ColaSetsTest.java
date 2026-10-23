@@ -96,7 +96,7 @@ public class ColaSetsTest {
 		assertEquals("A", cola.desencolar());
 		cola.encolar("C");
 		assertEquals("B", cola.desencolar());
-		assertEquals(0, cola.darTamanio());
+		assertEquals(1, cola.darTamanio());
 	}
 	@Test
 	void encolarAumentaElTamanioYDesencolarLoReduce() {
