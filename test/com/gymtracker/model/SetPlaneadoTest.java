@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import com.gymtracker.exceptions.EjercicioInvalidoException;
 import com.gymtracker.exceptions.NumeroSetInvalidoException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
-import com.gymtracker.exceptions.RepeticionesInvalidasException;
+
 
 public class SetPlaneadoTest {
 	private Ejercicio ejercicio;

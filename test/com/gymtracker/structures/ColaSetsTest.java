@@ -28,7 +28,7 @@ public class ColaSetsTest {
 	@BeforeEach
 	void setUp() {
 		cola= new ColaSets<>();
-		Usuario usuario = new Usuario (1, "28993086", "Maria", 18, 1.7, Objetivo.HIPERTROFIA);
+		Usuario usuario = new Usuario (1, "28993086", "Maria", 18, 1.7, Objetivo.HIPERTROFIA, "clave123");
 		Rutina rutina1 = new Rutina(1, "Dia de pierna", usuario, DiaSemana.LUNES);
 		Ejercicio sentadilla = new Ejercicio (1, "SENT-1", "Sentadilla Libre", "Cuadriceps", "Piernas", TipoEjercicio.PESO);
 		Ejercicio extension = new Ejercicio (2, "EXT-01", "Extension de cuadriceps", "Cuadriceps", "Piernas", TipoEjercicio.PESO );
@@ -41,7 +41,7 @@ public class ColaSetsTest {
 		ColaSets<SetPlaneado> colaSets = new ColaSets<>();
 		for (RutinaEjercicio re : plan) {
 			for (int n = 1; n <= re.getSetsObjetivo(); n++) {
-				colaSets.encolar(new SetPlaneado(n, re.getEjercicio(),re.getRepsObjetivo()));
+				colaSets.encolar(new SetPlaneado(n, re.getEjercicio(),re.getObjetivo()));
 			}
 		}
 		return colaSets;
@@ -150,7 +150,7 @@ public class ColaSetsTest {
 		
 		int[] repsEsperadas= {8,8,8,8,10,10,10};
 		for (int reps : repsEsperadas) {
-			assertEquals(reps, colaSeries.desencolar().getRepsObjetivo());
+			assertEquals(reps, colaSeries.desencolar().getObjetivo());
 		}
 	}
 	@Test

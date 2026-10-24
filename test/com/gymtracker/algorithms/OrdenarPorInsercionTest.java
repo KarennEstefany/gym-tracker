@@ -187,9 +187,9 @@ class OrdenarPorInsercionTest{
 	@Test 
 	void ordenar_UsuarioPorDocumento() {
 		
-		Usuario ana = new Usuario(1, "300", "Ana", 35, 1.65, Objetivo.HIPERTROFIA);
-		Usuario maria = new Usuario(2, "100", "María", 25, 1.70, Objetivo.FUERZA);
-		Usuario marta = new Usuario(3, "200", "Marta", 25, 1.67, Objetivo.PERDIDA_DE_GRASA);
+		Usuario ana = new Usuario(1, "300", "Ana", 35, 1.65, Objetivo.HIPERTROFIA, "clave123");
+		Usuario maria = new Usuario(2, "100", "María", 25, 1.70, Objetivo.FUERZA, "clave123");
+		Usuario marta = new Usuario(3, "200", "Marta", 25, 1.67, Objetivo.PERDIDA_DE_GRASA, "clave123");
 		
 		List<Usuario> lista = new ArrayList<>(List.of(ana, maria, marta));
 		OrdenarPorInsercion.ordenar(lista, Comparator.comparing(Usuario::getDocumento));
@@ -203,9 +203,9 @@ class OrdenarPorInsercionTest{
 	@Test 
 	void ordenar_usuariosPorEdad_conservaOrdenDeEdadesIguales() {
 		
-		Usuario ana = new Usuario(1, "300", "Ana", 25, 1.65, Objetivo.HIPERTROFIA);
-		Usuario maria = new Usuario(2, "100", "María", 25, 1.70, Objetivo.FUERZA);
-		Usuario marta = new Usuario(3, "200", "Marta", 35, 1.67, Objetivo.PERDIDA_DE_GRASA);
+		Usuario ana = new Usuario(1, "300", "Ana", 25, 1.65, Objetivo.HIPERTROFIA, "clave123");
+		Usuario maria = new Usuario(2, "100", "María", 25, 1.70, Objetivo.FUERZA, "clave123");
+		Usuario marta = new Usuario(3, "200", "Marta", 35, 1.67, Objetivo.PERDIDA_DE_GRASA, "clave123");
 		
 		List<Usuario> lista = new ArrayList<>(List.of(ana, maria, marta));
 		OrdenarPorInsercion.ordenar(lista, Comparator.comparingInt(Usuario::getEdad));
