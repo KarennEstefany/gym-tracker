@@ -3,6 +3,7 @@ package com.gymtracker.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gymtracker.exceptions.ContrasenaInvalidaException;
 import com.gymtracker.exceptions.UsuarioDuplicadoException;
 import com.gymtracker.exceptions.UsuarioNoEncontradoException;
 import com.gymtracker.model.Objetivo;
@@ -32,11 +33,11 @@ public class UsuarioService {
      * @return
      */
     public Usuario registrarUsuario(String documento, String nombre, int edad,
-                                    double estatura, Objetivo objetivo) {
+                                    double estatura, Objetivo objetivo, String contrasena) {
         if (existe(documento)) {
             throw new UsuarioDuplicadoException("Ya existe un usuario con ese documento");
         }
-        Usuario nuevo = new Usuario(siguienteId, documento, nombre, edad, estatura, objetivo);
+        Usuario nuevo = new Usuario(siguienteId, documento, nombre, edad, estatura, objetivo, contrasena);
         siguienteId++;   // después de construir, para no gastar ids si el constructor falla
         usuarios.add(nuevo);
         return nuevo;
@@ -62,11 +63,19 @@ public class UsuarioService {
    
     /**
      * Ingreso a la app: devuelve el usuario que usará el menú.
+     * verifica que el usuario y la contraseña sean correctos 
+     * 
      * @param documento
+     *@param contrasena
      * @return
      */
-    public Usuario ingresar(String documento) {
-        return buscarPorDocumento(documento);
+    public Usuario ingresar(String documento, String contrasena) {
+        for(Usuario u: usuarios) {
+        	if(u.getDocumento().equals(documento ) && u.verificarContrasena(contrasena)) {
+        		return u;
+        	}
+        }
+        throw new ContrasenaInvalidaException("Documento o credenciales invalidas");
     }
 
     

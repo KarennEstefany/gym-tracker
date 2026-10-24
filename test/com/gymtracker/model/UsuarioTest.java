@@ -16,7 +16,7 @@ class UsuarioTest {
 	Usuario usuario;
 	@BeforeEach
 	public void setUp() {
-		usuario= new Usuario (2, "2918827018", "Sofia", 19, 1.6, Objetivo.FUERZA);
+		usuario= new Usuario (2, "2918827018", "Sofia", 19, 1.6, Objetivo.FUERZA, "clave123");
 	}
 	@Test
 	void constructorValido() {
@@ -29,13 +29,13 @@ class UsuarioTest {
 	}
 	@Test
 	void constructorinValido() {
-		assertThrows(EdadEstaturaInvalidaException.class, () ->{ new Usuario (2, "2918827018", "Sofia", -2, 1.6, Objetivo.FUERZA);
+		assertThrows(EdadEstaturaInvalidaException.class, () ->{ new Usuario (2, "2918827018", "Sofia", -2, 1.6, Objetivo.FUERZA, "clave123");
 		});
-		assertThrows(EdadEstaturaInvalidaException.class, () ->{ new Usuario (2, "2918827018", "Sofia", 19, 0, Objetivo.FUERZA);
+		assertThrows(EdadEstaturaInvalidaException.class, () ->{ new Usuario (2, "2918827018", "Sofia", 19, 0, Objetivo.FUERZA, "clave123");
 		});
-		assertThrows(NombreNullException.class, () ->{ new Usuario (2, "2918827018", null, 19, 1.6, Objetivo.FUERZA);
+		assertThrows(NombreNullException.class, () ->{ new Usuario (2, "2918827018", null, 19, 1.6, Objetivo.FUERZA, "clave123");
 		});
-		assertThrows(ObjetivoInvalidoException.class, () ->{ new Usuario (2, "2918827018", "Sofia", 19, 1.6, null);
+		assertThrows(ObjetivoInvalidoException.class, () ->{ new Usuario (2, "2918827018", "Sofia", 19, 1.6, null, "clave123");
 		});
 	}
 	
@@ -83,24 +83,24 @@ class UsuarioTest {
 	
 	@Test
 	void equals_mismoDocumento_sonIguales() {
-	    Usuario a = new Usuario(1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA);
-	    Usuario b = new Usuario(2, "123", "Ana Maria", 30, 1.70, Objetivo.FUERZA);
+	    Usuario a = new Usuario(1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA, "clave123");
+	    Usuario b = new Usuario(2, "123", "Ana Maria", 30, 1.70, Objetivo.FUERZA, "clave123");
 
 	    assertEquals(a, b);
 	}
 
 	@Test
 	void equals_distintoDocumento_noSonIguales() {
-	    Usuario a = new Usuario(1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA);
-	    Usuario b = new Usuario(1, "456", "Ana", 25, 1.65, Objetivo.HIPERTROFIA);
+	    Usuario a = new Usuario(1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA, "clave123");
+	    Usuario b = new Usuario(1, "456", "Ana", 25, 1.65, Objetivo.HIPERTROFIA, "clave123");
 
 	    assertNotEquals(a, b);
 	}
 
 	@Test
 	void hashCode_usuariosIguales_tienenElMismoHashCode() {
-	    Usuario a = new Usuario(1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA);
-	    Usuario b = new Usuario(2, "123", "Otra", 40, 1.80, Objetivo.FUERZA);
+	    Usuario a = new Usuario(1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA, "clave123");
+	    Usuario b = new Usuario(2, "123", "Otra", 40, 1.80, Objetivo.FUERZA, "clave123");
 
 	    assertEquals(a.hashCode(), b.hashCode());
 	}
