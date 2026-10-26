@@ -24,7 +24,7 @@ public class Usuario {
 	 * @param edad
 	 * @param estatura
 	 * @param objetivo
-	 * @param contrasena TODO
+	 * @param contrasena 
 	 */
 	public Usuario(int id, String documento, String nombre, int edad, double estatura, Objetivo objetivo, String contrasena) {
 		super();
