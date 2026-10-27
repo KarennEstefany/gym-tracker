@@ -26,7 +26,7 @@ public class VentanaLogin extends JFrame {
 	
 	//ATRIBUTOS
 	
-	private static final String INICIO = "INICIO";
+
 	private static final String INGRESO = "INGRESO";
 	private static final String REGISTRO = "REGISTRO";
 	
@@ -71,7 +71,6 @@ public class VentanaLogin extends JFrame {
 		cartas = new CardLayout();
 		contenedor = new JPanel(cartas);
 		contenedor.setBackground(Tema.FONDO);
-		contenedor.add(new PanelInicio(this), INICIO);
 		contenedor.add(panelIngreso, INGRESO);
 		contenedor.add(panelRegistro, REGISTRO);
 		
@@ -85,7 +84,8 @@ public class VentanaLogin extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
-		mostrarInicio();
+				
+		mostrarIngreso();
 		/**
 		 * Lo llaman PanelIngreso y PanelRegistro cuando el servicio acepta los datos
 		 */
@@ -94,15 +94,6 @@ public class VentanaLogin extends JFrame {
 		
 	}
 		
-		public void mostrarInicio() {
-			
-			cartas.show(contenedor, INICIO);
-			
-			getRootPane().setDefaultButton(null);
-		
-		
-	}
-
 		private Component crearEncabezado() {
 		JPanel encabezado = new JPanel(new BorderLayout());
 		encabezado.setBackground(Tema.FONDO);

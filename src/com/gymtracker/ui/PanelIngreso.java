@@ -31,7 +31,6 @@ public class PanelIngreso extends JPanel implements ActionListener{
 	
 	//ATRIBUTOS 
 	private static final String INGRESAR = "INGRESAR";
-	private static final String VOLVER = "VOLVER";
 	private static final String IR_REGISTRO = "IR_REGISTRO";
 	
 	private final UsuarioService usuarioService;
@@ -88,7 +87,6 @@ public class PanelIngreso extends JPanel implements ActionListener{
 		JPanel columna = new JPanel();
 		columna.setLayout(new BoxLayout(columna, BoxLayout.Y_AXIS));
 		columna.setOpaque(false);
-		columna.add(Tema.crearEnlace("← Volver al inicio", VOLVER, this, Tema.TEXTO_SUAVE));
 		columna.add(Box.createRigidArea(new Dimension(0,14)));
 		columna.add(tarjeta);
 		
@@ -117,9 +115,6 @@ public class PanelIngreso extends JPanel implements ActionListener{
 		String comando = e.getActionCommand();
 		if(INGRESAR.equals(comando)) {
 			ingresar();
-		} else if(VOLVER.equals(comando)) {
-			limpiar();
-			ventana.mostrarInicio();
 		} else if(IR_REGISTRO.equals(comando)) {
 			limpiar();
 			ventana.mostrarRegistro();
@@ -146,7 +141,6 @@ public class PanelIngreso extends JPanel implements ActionListener{
 	}
 
 	public void activaEnter() {
-		// TODO Auto-generated method stub
 		ventana.getRootPane().setDefaultButton(botonIngresar);
 	}
 	
