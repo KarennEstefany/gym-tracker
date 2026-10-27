@@ -22,7 +22,7 @@ class RutinaTest {
 	@BeforeEach
 	void setUp() {
 		
-		usuario  = new Usuario (1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA);
+		usuario  = new Usuario (1, "123", "Ana", 25, 1.65, Objetivo.HIPERTROFIA, "clave123");
 			}
 	
 	//Verifica que la excepcion DiaSemanaInvalidaException se lance cuando el día de la semana que el usuario ingresa es nulo

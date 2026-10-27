@@ -25,7 +25,7 @@ class SesionEntrenamientoTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		 usuario = new Usuario(2,"234","Marta",34, 1.65, Objetivo.PERDIDA_DE_GRASA);
+		 usuario = new Usuario(2,"234","Marta",34, 1.65, Objetivo.PERDIDA_DE_GRASA, "clave123");
 		rutina = new Rutina(2, "Día de pierna", usuario, DiaSemana.MARTES);
 		
 	}

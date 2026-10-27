@@ -1,10 +1,14 @@
 package com.gymtracker.model;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
+
 import com.gymtracker.exceptions.EdadEstaturaInvalidaException;
 import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
-import java.util.Objects;
-
+import com.gymtracker.exceptions.ContrasenaInvalidaException;
 public class Usuario {
 	private int id;
 	private String documento;
@@ -12,6 +16,7 @@ public class Usuario {
 	private int edad;
 	private double estatura;
 	private Objetivo objetivo;
+	private final String contrasenaHash;
 	/**
 	 * @param id
 	 * @param documento
@@ -19,8 +24,9 @@ public class Usuario {
 	 * @param edad
 	 * @param estatura
 	 * @param objetivo
+	 * @param contrasena 
 	 */
-	public Usuario(int id, String documento, String nombre, int edad, double estatura, Objetivo objetivo) {
+	public Usuario(int id, String documento, String nombre, int edad, double estatura, Objetivo objetivo, String contrasena) {
 		super();
 		this.id = id;
 		this.documento = documento;
@@ -28,7 +34,18 @@ public class Usuario {
 		setEdad(edad);
 		setEstatura(estatura);
 		setObjetivo (objetivo);
+		
+		
+		
+		if(contrasena == null || contrasena.length()<6 ) {
+			
+			throw new ContrasenaInvalidaException("La contraseña debe tener al menos 6 caracteres");
+			
+		}
+		this.contrasenaHash = hashear(contrasena);	
+		
 	}
+	
 	public int getId() {
 		return id;
 	}
@@ -75,6 +92,8 @@ public class Usuario {
 		this.objetivo = objetivo;
 	}
 	
+
+	
 	@Override
 	public boolean equals(Object o) {
 	    if (this == o) {
@@ -92,7 +111,36 @@ public class Usuario {
 	    return Objects.hash(documento);
 	}
 	
+	public boolean verificarContrasena(String intento) {
+		
+		return intento!=null && contrasenaHash.equals(hashear(intento));
 	
+	}
+	
+	/**
+	 * @param texto
+	 * @return
+	 */
+	public static String hashear(String texto) {
+		
+		try {
+			
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			byte[] bytes  = md.digest(texto.getBytes(StandardCharsets.UTF_8));
+			StringBuilder sb = new StringBuilder();
+			for(byte b: bytes) {
+				
+				sb.append(String.format("%02x",b));
+			}
+			
+			return sb.toString();
+		}catch(NoSuchAlgorithmException e) {
+			
+			throw new IllegalStateException("SHA-256",e);
+		}
+		
+
+	}
 	
 
 }

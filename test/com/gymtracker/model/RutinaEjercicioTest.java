@@ -12,7 +12,7 @@ import com.gymtracker.exceptions.NumeroSetInvalidoException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
 import com.gymtracker.exceptions.ObjetoNuloException;
 import com.gymtracker.exceptions.OrdenInvalidoException;
-import com.gymtracker.exceptions.RepeticionesInvalidasException;
+
 
 class RutinaEjercicioTest {
 	RutinaEjercicio rutinaE;
@@ -21,7 +21,7 @@ class RutinaEjercicioTest {
 	
 	@BeforeEach
 	void setUp() {
-		Usuario usuario = new Usuario(1, "2918827018", "Sofia", 19, 1.6, Objetivo.FUERZA);
+		Usuario usuario = new Usuario(1, "2918827018", "Sofia", 19, 1.6, Objetivo.FUERZA, "clave123");
 		rutina = new Rutina(1, "Día de pierna", usuario, DiaSemana.LUNES); // ajusta al constructor real
 		ejercicio = new Ejercicio(4, "SENT-01", "Sentadilla libre", "Cuádriceps", "Piernas", TipoEjercicio.PESO);
 		rutinaE= new RutinaEjercicio(1, rutina, ejercicio, 5, 3, 12);

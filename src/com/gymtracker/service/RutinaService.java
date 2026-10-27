@@ -31,7 +31,7 @@ public class RutinaService {
 	 public RutinaService() {
 		super();
 		this.rutinas = new ArrayList<>();
-		this.ejerciciosDeRutinas = new ArrayList();
+		this.ejerciciosDeRutinas = new ArrayList<>();
 		this.siguienteIdRutina = 1;
 		this.siguienteIdRutinaEjercicio = 1;
 	 }
@@ -140,6 +140,7 @@ public class RutinaService {
         return resultado;
     }
 
+    
     
     /** 
      *  Ejercicios de la rutina en el orden en que se agregaron. 
