@@ -34,6 +34,7 @@ public class UsuarioService {
      */
     public Usuario registrarUsuario(String documento, String nombre, int edad,
                                     double estatura, Objetivo objetivo, String contrasena) {
+    	//  falta actualizar para que busque con la tabla hash 
         if (existe(documento)) {
             throw new UsuarioDuplicadoException("Ya existe un usuario con ese documento");
         }
