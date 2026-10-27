@@ -98,7 +98,7 @@ public class PanelInicio extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 
 		if(CREAR_CUENTA.equals(e.getActionCommand())) {
-			ventana.mostarRegistro();
+			ventana.mostrarRegistro();
 		} else if(INICIAR_SESION.equals(e.getActionCommand())){
 			ventana.mostrarIngreso();
 			

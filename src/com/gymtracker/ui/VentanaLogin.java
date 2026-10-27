@@ -94,7 +94,7 @@ public class VentanaLogin extends JFrame {
 		
 	}
 		
-		private void mostrarInicio() {
+		public void mostrarInicio() {
 			
 			cartas.show(contenedor, INICIO);
 			
@@ -123,7 +123,7 @@ public class VentanaLogin extends JFrame {
 
 		
 
-		public void mostarRegistro() {
+		public void mostrarRegistro() {
 			cartas.show(contenedor, REGISTRO);
 			panelRegistro.activaEnter();
 			
