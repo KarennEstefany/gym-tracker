@@ -14,17 +14,16 @@ import com.gymtracker.structures.PilaAcciones;
 
 public class SesionService {
 	//TODO
-	//Antes de hacer merge con main es necesario eliminar esta liea de código 
-	private final RutinaService rutinaService;
+	
 	private SesionEntrenamiento sesionActiva;
 	private final ColaSets<SetPlaneado> colaPendientes;
 	private final PilaAcciones<AccionSet> pilaDeshacer;
 	private final List<SetRegistro> historial;
 	
 	//También el parámetro
-	public SesionService(RutinaService rutinaService) {
+	public SesionService() {
 
-		this.rutinaService = rutinaService;
+	
 		this.pilaDeshacer =new PilaAcciones<>();
 		this.historial = new ArrayList<>();
 		this.colaPendientes = new ColaSets<>();
