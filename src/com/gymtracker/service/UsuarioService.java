@@ -1,24 +1,22 @@
 package com.gymtracker.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gymtracker.exceptions.ContrasenaInvalidaException;
 import com.gymtracker.exceptions.UsuarioDuplicadoException;
 import com.gymtracker.exceptions.UsuarioNoEncontradoException;
 import com.gymtracker.model.Objetivo;
 import com.gymtracker.model.Usuario;
+import com.gymtracker.structures.TablaHash;
 
 /**
- * 
+ * Implementa la tabla Hash para que las operaciones de los metodos sean O(1) en promedio
  */
 public class UsuarioService {
 
-    private final List<Usuario> usuarios;
+    private final TablaHash<String, Usuario> usuariosPorDocumento;
     private int siguienteId;
 
     public UsuarioService() {
-        this.usuarios = new ArrayList<>();
+        this.usuariosPorDocumento = new TablaHash<>();
         this.siguienteId = 1;
     }
 
@@ -34,13 +32,15 @@ public class UsuarioService {
      */
     public Usuario registrarUsuario(String documento, String nombre, int edad,
                                     double estatura, Objetivo objetivo, String contrasena) {
-    	//  falta actualizar para que busque con la tabla hash 
-        if (existe(documento)) {
+    	//Se crea el usuario antes de consultar la tabla y valida internamente los parametros, responde con excepciones propias
+    	Usuario nuevo = new Usuario(siguienteId, documento, nombre, edad, estatura, objetivo, contrasena);
+        if (usuariosPorDocumento.contieneClave(nuevo.getDocumento())) {
             throw new UsuarioDuplicadoException("Ya existe un usuario con ese documento");
         }
-        Usuario nuevo = new Usuario(siguienteId, documento, nombre, edad, estatura, objetivo, contrasena);
-        siguienteId++;   // después de construir, para no gastar ids si el constructor falla
-        usuarios.add(nuevo);
+        
+        
+        usuariosPorDocumento.insertar(nuevo.getDocumento(), nuevo);
+        siguienteId++;   // después de inssertar, el id solo se asigna si el registro se completa
         return nuevo;
     }
 
@@ -51,12 +51,12 @@ public class UsuarioService {
      * @return
      */
     public Usuario buscarPorDocumento(String documento) {
-        for (Usuario u : usuarios) {
-            if (u.getDocumento().equals(documento)) {
-                return u;
-            }
+    	Usuario usuario= usuariosPorDocumento.buscarValor(documento);
+        if(usuario == null) {
+        	throw new UsuarioNoEncontradoException("No existe un usuario con ese documento");
         }
-        throw new UsuarioNoEncontradoException("No existe un usuario con ese documento");
+        return usuario;
+        
     }
     
     
@@ -71,13 +71,13 @@ public class UsuarioService {
      * @return
      */
     public Usuario ingresar(String documento, String contrasena) {
-        for(Usuario u: usuarios) {
-        	if(u.getDocumento().equals(documento ) && u.verificarContrasena(contrasena)) {
-        		return u;
+    	Usuario usuario= usuariosPorDocumento.buscarValor(documento);
+        	if(usuario==null || !usuario.verificarContrasena(contrasena)) {
+        		throw new ContrasenaInvalidaException("Documento o credenciales invalidas");
         	}
+        	return usuario;
         }
-        throw new ContrasenaInvalidaException("Documento o credenciales invalidas");
-    }
+       
 
     
     
@@ -87,15 +87,10 @@ public class UsuarioService {
      * @return
      */
     public boolean existe(String documento) {
-        for (Usuario u : usuarios) {
-            if (u.getDocumento().equals(documento)) {
-                return true;
-            }
-        }
-        return false;
+        return usuariosPorDocumento.contieneClave(documento);
     }
 
     public int darCantidad() {
-        return usuarios.size();
+        return usuariosPorDocumento.darTamanio();
     }
 }

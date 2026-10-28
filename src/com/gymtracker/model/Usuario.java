@@ -9,6 +9,7 @@ import com.gymtracker.exceptions.EdadEstaturaInvalidaException;
 import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
 import com.gymtracker.exceptions.ContrasenaInvalidaException;
+import com.gymtracker.exceptions.DocumentoInvalidoException;
 public class Usuario {
 	private int id;
 	private String documento;
@@ -29,15 +30,21 @@ public class Usuario {
 	public Usuario(int id, String documento, String nombre, int edad, double estatura, Objetivo objetivo, String contrasena) {
 		super();
 		this.id = id;
-		this.documento = documento;
+		
 		setNombre(nombre);
 		setEdad(edad);
 		setEstatura(estatura);
 		setObjetivo (objetivo);
 		
 		
+		if(documento == null ||  documento.isEmpty() ) {
+					
+					throw new DocumentoInvalidoException("El documento del usuario no puede ser nulo");
+					
+				}
+		this.documento = documento;
 		
-		if(contrasena == null || contrasena.length()<6 ) {
+		if(contrasena == null || contrasena.length()<6 || contrasena.isEmpty() ) {
 			
 			throw new ContrasenaInvalidaException("La contraseña debe tener al menos 6 caracteres");
 			

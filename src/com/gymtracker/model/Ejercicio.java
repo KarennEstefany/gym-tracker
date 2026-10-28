@@ -1,7 +1,9 @@
 package com.gymtracker.model;
 
 import com.gymtracker.exceptions.CategoriaInvalidaException;
+import com.gymtracker.exceptions.EjercicioInvalidoException;
 import com.gymtracker.exceptions.GrupoMuscularInvalidoException;
+import com.gymtracker.exceptions.GymTrackerException;
 import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
 
@@ -22,11 +24,11 @@ public class Ejercicio {
 	 */
 	public Ejercicio(int id, String codigo, String nombre, String grupoMuscular, String categoria, TipoEjercicio tipo) {
 		this.id = id;
-		this.codigo = codigo;
+		this.codigo = verificarCodigo(codigo);
 		setNombre(nombre);
 		setGrupoMuscular(grupoMuscular);
 		setCategoria(categoria);
-		this.tipo = tipo;
+		this.tipo = verificarTipo(tipo);
 	}
 	public int getId() {
 		return id;
@@ -89,6 +91,21 @@ public class Ejercicio {
 	public String toString() {
 		return "Ejercicio [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + ", grupoMuscular=" + grupoMuscular
 				+ ", categoria=" + categoria + ", tipo=" + tipo + "]";
+	}
+	public TipoEjercicio verificarTipo(TipoEjercicio tipo) {
+		if(tipo==null) {
+			throw new EjercicioInvalidoException("El tipo de ejercicio no puede ser nulo");
+		}
+		if (!tipo.equals(TipoEjercicio.PESO) && !tipo.equals(TipoEjercicio.TIEMPO) ) {
+			throw new EjercicioInvalidoException("El tipo de ejercicio debe ser peso o tiempo");
+		}
+		return tipo;
+	}
+	public String verificarCodigo(String codigo) {
+		if (codigo ==null || codigo.trim().isEmpty()) {
+			throw new GymTrackerException("El CODIGO del Ejercicio no puede estar vacio");
+		}
+		return codigo;
 	}
 	
 	
