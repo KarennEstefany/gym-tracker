@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -28,8 +29,9 @@ public class Tema {
 	
 	public static final Color CAMPO  =  new Color(34,38, 48);
 	public static final Color  BORDE_CAMPO = new Color(50,55,68);
-	public static final Color ENLACE = new Color(255,255,255);
+	public static final Color ENLACE = new Color(80,150,255);
 	
+	public static final Color SUBTARJETA = new Color(28,31,38);
 	
 	
 	private Tema() {
@@ -44,13 +46,28 @@ public class Tema {
 		campo.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(BORDE_CAMPO),
 				BorderFactory.createEmptyBorder(10,12,10,12)));
-		Dimension tamano = new Dimension(380,44);
+		Dimension tamano = new Dimension(380,40);
 		campo.setPreferredSize(tamano);
 		campo.setMaximumSize(tamano);
 		campo.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 	}
 	
+	// Sobrecarga el método para utilizarlo en panelIngreso 
+	
+	public static void estilizarCampo(JTextField campo, int ancho) {
+		
+		estilizarCampo(campo);
+		/*Dimension tamano = new Dimension(ancho, 30);
+		campo.setPreferredSize(tamano);
+		campo.setMaximumSize(tamano);
+		*/
+		Dimension preferido = new Dimension(ancho, 40);
+		Dimension maximo = new Dimension(Integer.MAX_VALUE, 40);
+		
+		campo.setPreferredSize(preferido);
+		campo.setMaximumSize(maximo);
+	}
 	
 	public static JLabel crearEtiqueta(String texto) {
 		
@@ -101,6 +118,23 @@ public class Tema {
 			
 		return enlace;
 	}
+	
+	
+	// Estiliza combo para las opciones de objetivo en panelIngreso
+	
+	public static void estilizarCombo(JComboBox<?> combo, int ancho) {
+		
+		combo.setBackground(CAMPO);
+		combo.setForeground(TEXTO);
+		combo.setFont(new Font("SansSerif", Font.PLAIN, 14));
+		combo.setPreferredSize(new Dimension(ancho, 40));
+		combo.setMaximumSize(new Dimension(Integer.MAX_VALUE,40));
+		combo.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+	}
+	
+	
+	
 	
 	
 }

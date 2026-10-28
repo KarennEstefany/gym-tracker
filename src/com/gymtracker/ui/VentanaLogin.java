@@ -80,7 +80,7 @@ public class VentanaLogin extends JFrame {
 		add(contenedor, BorderLayout.CENTER);
 	
 	
-		setSize(900,700);
+		setSize(900,780);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
