@@ -1,5 +1,8 @@
 package com.gymtracker.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gymtracker.exceptions.ContrasenaInvalidaException;
 import com.gymtracker.exceptions.UsuarioDuplicadoException;
 import com.gymtracker.exceptions.UsuarioNoEncontradoException;
@@ -11,15 +14,50 @@ import com.gymtracker.structures.TablaHash;
  * Implementa la tabla Hash para que las operaciones de los metodos sean O(1) en promedio
  */
 public class UsuarioService {
-
+	
+	
+	private final List<Usuario> usuarios;
     private final TablaHash<String, Usuario> usuariosPorDocumento;
     private int siguienteId;
 
+    /**
+     * Constructor por defecto. Inicializa el servicio con una lista vacía
+     * delengando en el constructor principal.
+     */
     public UsuarioService() {
-        this.usuariosPorDocumento = new TablaHash<>();
-        this.siguienteId = 1;
+       
+    	this(new ArrayList<Usuario>()); 
     }
 
+    /**
+     * 
+     * Constructor principal que inicializa el servicio a partir de 
+     * una lista existente de usuarios 
+     * 
+     * Este cosntructor realiza dos tareas clave:
+     * <ul> 
+     * 		<li> Almaccena la lista de usuarios y construye la tabla hash indexada por documento.</li>
+     * 		<li> Recorre la lista para encontrar el Id más alto y calcula automáticamente el {@code siguienteId} disponible para evitar duplicados.</li>
+     * </ul>
+     * @param usuarios
+     */
+    public UsuarioService(List<Usuario> usuarios) {
+    	
+    	this.usuarios = usuarios;
+    	this.usuariosPorDocumento = new TablaHash<>();
+    	
+    	int maximo = 0; //Inicializa la variable en 0 
+    	for(Usuario u: usuarios) {
+    		
+    		//Inserta el documento y el usuario a la tabla hash 
+    		usuariosPorDocumento.insertar(u.getDocumento(), u); 
+    		if(u.getId()>maximo) {
+    			
+    			maximo = u.getId(); //Actualiza el máximo si encuentra un Id mayor
+    		}
+    		this.siguienteId = maximo + 1; 
+    	}
+    }
     /**
      * 
      * R1: registra un usuario nuevo; el documento no puede repetirse.
@@ -40,6 +78,7 @@ public class UsuarioService {
         
         
         usuariosPorDocumento.insertar(nuevo.getDocumento(), nuevo);
+        usuarios.add(nuevo);
         siguienteId++;   // después de inssertar, el id solo se asigna si el registro se completa
         return nuevo;
     }
