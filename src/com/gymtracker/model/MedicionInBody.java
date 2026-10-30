@@ -1,9 +1,14 @@
 package com.gymtracker.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class MedicionInBody {
+public class MedicionInBody implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final String id;
 	private final Usuario usuario;
 	private LocalDate fecha;

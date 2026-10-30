@@ -4,6 +4,10 @@ import com.gymtracker.exceptions.DuracionInvalidaException;
 
 public class SetTiempo extends SetRegistro{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int duracionSegundos;
 
 	public SetTiempo(int id, SesionEntrenamiento sesion, Ejercicio ejercicio, int numeroSet, int rpe, int rir, int duracionSegundos) {

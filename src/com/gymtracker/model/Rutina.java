@@ -1,11 +1,18 @@
 package com.gymtracker.model;
 
+import java.io.Serializable;
+
 import com.gymtracker.exceptions.DiaSemanaInvalidaException;
 import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.UsuarioInvalidoException;
 
 
-public class Rutina {
+public class Rutina implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final int id;
 	private String nombre; //Ejemplo : Día de pierna
 	private final Usuario usuario; 

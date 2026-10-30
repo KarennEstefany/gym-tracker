@@ -1,5 +1,6 @@
 package com.gymtracker.model;
 
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +11,11 @@ import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
 import com.gymtracker.exceptions.ContrasenaInvalidaException;
 import com.gymtracker.exceptions.DocumentoInvalidoException;
-public class Usuario {
+public class Usuario implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String documento;
 	private String nombre;

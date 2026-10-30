@@ -1,14 +1,20 @@
 package com.gymtracker.model;
 
 
+import java.io.Serializable;
+
 import com.gymtracker.exceptions.EjercicioInvalidoException;
 import com.gymtracker.exceptions.NumeroSetInvalidoException;
 import com.gymtracker.exceptions.RirInvalidoException;
 import com.gymtracker.exceptions.RpeInvalidoException;
 import com.gymtracker.exceptions.SesionInvalidaException;
 
-public abstract class SetRegistro {
+public abstract class SetRegistro  implements Serializable{
 	
+	 /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	 private final int id;
 	 private final SesionEntrenamiento sesion;
 	 private final Ejercicio ejercicio;

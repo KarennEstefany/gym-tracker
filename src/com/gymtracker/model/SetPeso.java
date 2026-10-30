@@ -7,6 +7,10 @@ import com.gymtracker.exceptions.RepeticionesInvalidasException;
 public class SetPeso extends SetRegistro{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private double peso;
 	private int repeticiones;
 	
