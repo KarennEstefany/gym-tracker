@@ -31,8 +31,11 @@ import com.gymtracker.structures.ColaSets;
 import com.gymtracker.structures.PilaAcciones;
 import com.gymtracker.model.DiaSemana;
 
+/**
+ * Guarda el historial de sets, el registro de la sesion
+ */
 public class SesionService {
-	
+
 	private final RutinaService rutinaService; 
 	private SesionEntrenamiento sesionActiva;
 	private  ColaSets<SetPlaneado> colaPendientes; //Se renueva en cada sesion
@@ -42,11 +45,13 @@ public class SesionService {
 	private int siguienteIdSesion;
 	private int siguienteIdSet;
 	
+
 	
 	public SesionService(RutinaService rutinaService) {
 		if (rutinaService==null) {
 			throw new ObjetoNuloException("El RutinaService no puede ser nulo");
 		}
+
 		this.pilaDeshacer =new PilaAcciones<>();
 		this.rutinaService = rutinaService;
 		this.historial = new ArrayList<>();
