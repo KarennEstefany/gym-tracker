@@ -477,11 +477,9 @@ public class RutinaServiceTest {
 		rutinas.add(new Rutina(3, "A", Isabel, DiaSemana.LUNES));
 		RutinaService servicio = new RutinaService(rutinas, new ArrayList<RutinaEjercicio>());
 		
+		//Lanza la excepcion si encuentra una rutina  para el mismo dia ( la regla de negocio es que solo se puede tener una rutina por día ) 
 		assertThrows(DiaRutinaDuplicadoException.class, () -> servicio.crearRutina(Isabel, "B", DiaSemana.LUNES));
 	}   
-	/**
-	rutinas.add(new Rutina(3,"A", Isabel, DiaSemana.LUNES));
-	RutinaService servicio = new RutinaService(rutinas, new ArrayList<RutinaEjercicio>)*/
 	
 	
 }

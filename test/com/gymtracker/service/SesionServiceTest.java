@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +37,7 @@ import com.gymtracker.model.Rutina;
 import com.gymtracker.model.SesionEntrenamiento;
 import com.gymtracker.model.SetPeso;
 import com.gymtracker.model.SetPlaneado;
+import com.gymtracker.model.SetRegistro;
 import com.gymtracker.model.SetTiempo;
 import com.gymtracker.exceptions.SinSesionActivaException;
 
@@ -479,6 +481,26 @@ public class SesionServiceTest {
 		resultado.clear();
 		
 		assertEquals(1, sesionService.listarSesiones(usuario).size());
+	}
+	
+	//Prueba para validar el constructor 
+	
+	@Test
+	
+	void constructor_sesionEnCursoCargada_quedaFinalizada() {
+		
+		
+		Rutina rutina = crearRutina(usuario, "Dia de pierna", DiaSemana.MARTES);
+		SesionEntrenamiento abierta = new SesionEntrenamiento(3, LocalDate.of(2026, 10, 26), usuario, rutina);
+		
+		List<SesionEntrenamiento> sesiones = new ArrayList<>();
+		sesiones.add(abierta);
+		
+		
+		List<SetRegistro> setRegistro;
+		new SesionService(rutinaService, sesiones, new ArrayList<SetRegistro>());
+		
+		assertEquals(EstadoSesion.FINALIZADA, abierta.getEstado());
 	}
 	}
 
