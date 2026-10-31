@@ -31,6 +31,9 @@ import com.gymtracker.structures.ColaSets;
 import com.gymtracker.structures.PilaAcciones;
 import com.gymtracker.model.DiaSemana;
 
+/**
+ * Guarda el historial de sets, el registro de la sesion
+ */
 public class SesionService {
 
 	private final RutinaService rutinaService; 
