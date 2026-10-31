@@ -23,6 +23,7 @@ import com.gymtracker.exceptions.ObjetoNuloException;
 import com.gymtracker.model.Ejercicio;
 import com.gymtracker.model.TipoEjercicio;
 
+
 class EjercicioServiceTest {
 
     private EjercicioService service;
@@ -292,6 +293,32 @@ class EjercicioServiceTest {
  
         assertTrue(ex.getMessage().contains("Línea 2"), "El mensaje debe indicar la línea: " + ex.getMessage());
     }
+    
+    @Test
+    void cararCatalogo_siFallaUnaLinea_revierteLoYaCargado(@TempDir Path tempDir) throws IOException{
+    	
+    	Path archivo = tempDir.resolve("falla_al_final.txt");
+    	Files.writeString(archivo, "E01,Press de Banca,Pectoral,Pecho,PESO\n" + "E02,Sentadilla,Cuádriceps,Piernasa,PESO\n" + "E03,Plancha,Abdomen,Core\n"); //Linea 3 con 4 campos
+    	
+    	int candidadAntes = service.listarEjercicios().size();
+    	
+    	
+    	assertThrows(CatalogoInvalidoException.class, () -> service.cargarCatalogo(archivo.toString()));
+    	
+    	//La lista quedó igual que antes 
+    	assertEquals(candidadAntes, service.listarEjercicios().size());
+    	
+    	//La tabla también, los dos códigos de las dos primeras líneas ya no existen
+    	
+    	assertThrows(EjercicioNoEncontradoException.class, ()-> service.buscarPorCodigo("E01"));
+    	assertThrows(EjercicioNoEncontradoException.class, ()-> service.buscarPorCodigo("E02"));
+    	
+    	//Los ids volvieron a donde estaban 
+    	
+    	Ejercicio siguiente = service.registrarEjercicio("N01", "Remo", "Dorsal", "Espalda", TipoEjercicio.PESO);
+    	assertEquals(1, siguiente.getId());
+    	
+    }
  
     @Test
     void cargarCatalogoConCodigoRepetidoLanzaExcepcionYConservaLoCargadoAntes(@TempDir Path tempDir)
@@ -467,5 +494,34 @@ class EjercicioServiceTest {
     	assertTrue(lista.contains(ejercicio2));
     	
     }
+    
+    
+    //Nuevas pruebas para constructor 
+    
+    
+    @Test
+    
+    void constructor_reconstruyeElIndiceDesdeLaLista() {
+    	
+    	List<Ejercicio> listaInicial = new ArrayList<>();
+    	listaInicial.add(new Ejercicio(5, "SENT-01", "Sentadilla", "Cuádriceps", "Piernas", TipoEjercicio.PESO));
+    	EjercicioService servicio = new EjercicioService(listaInicial);
+    	
+    	assertEquals("Sentadilla", servicio.buscarPorCodigo("SENT-01").getNombre());
+    	
+    }
+    
+    @Test
+    void registrarEjercicio_loAgregaALaListaQueSeGuarda() {
+    	
+    	List<Ejercicio> listaInicial = new ArrayList<>();
+    	listaInicial.add(new Ejercicio(5, "SENT-01", "Sentadilla", "Cuádriceps", "Piernas", TipoEjercicio.PESO));
+    	EjercicioService servicio = new EjercicioService(listaInicial);
+    	
+    	
+    	servicio.registrarEjercicio("PLAN-01", "Plancha", "Abdomen", "Core", TipoEjercicio.TIEMPO);
+    	assertEquals(2, listaInicial.size());
+    }
+    
     
 }

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import com.gymtracker.algorithms.OrdenarPorInsercion;
@@ -17,16 +18,32 @@ import com.gymtracker.model.TipoEjercicio;
 import com.gymtracker.structures.TablaHash;
 
 public class EjercicioService {
-
+	
+	private final List<Ejercicio> listaEjercicios;
     private final TablaHash<String, Ejercicio> ejercicios;
     private int siguienteId;
 
     public EjercicioService() {
-        this.ejercicios = new TablaHash<>();
-        this.siguienteId = 1;
+       this(new ArrayList<Ejercicio>());
     }
 
-    /** R2: registra un ejercicio nuevo; el código no puede repetirse. */
+    public EjercicioService(List<Ejercicio> listaEjercicios) {
+    	
+    	this.listaEjercicios = listaEjercicios;
+    	this.ejercicios = new TablaHash<>();
+    	
+    	int maximo = 0;
+		for(Ejercicio e: listaEjercicios) {
+			ejercicios.insertar(e.getCodigo(), e);
+			if(e.getId()> maximo) {
+				
+				maximo = e.getId();
+			}
+		}
+		this.siguienteId = maximo + 1;
+	}
+
+	/** R2: registra un ejercicio nuevo; el código no puede repetirse. */
     public Ejercicio registrarEjercicio(String codigo, String nombre, String grupoMuscular, String categoria,
                                          TipoEjercicio tipo) {
     	// El constructor de Ejercicio recibe primero grupoMuscular y luego categoria
@@ -39,13 +56,14 @@ public class EjercicioService {
   
        
         ejercicios.insertar(nuevo.getCodigo(), nuevo);
+        listaEjercicios.add(nuevo); //Para que se guarde en el archivo 
         siguienteId++;   // después de insertar y construir,  el id solo se asigna si el registro se completa
         return nuevo;
     }
 
     /**
      * R2b: carga el catálogo desde un archivo de texto. Cada línea tiene el formato
-     * codigo,nombre,categoria,grupoMuscular,tipo
+     * codigo,nombre,grupoMuscular, categoria,tipo
      */
     public int cargarCatalogo(String ruta) {
         int idInicial = siguienteId;
@@ -85,10 +103,20 @@ public class EjercicioService {
         }
         return codigosCargados.size();
     }
+    
     private void deshacerCarga(List<String> codigos, int idInicial) {
         for (String codigo : codigos) {
             ejercicios.eliminar(codigo);   // reutiliza TablaHash.eliminar
+          //Remueve el ejercicio también de la lista principal 
+            Iterator<Ejercicio> it = listaEjercicios.iterator(); 
+            while(it.hasNext()){ //mientras haya elementos por revisar
+            	if(it.next().getCodigo().equals(codigo)) { // compara el código 
+            		it.remove(); // si es el mismo, lo elimina 
+            	}
+            	
+            }
         }
+        
         siguienteId = idInicial;           // los ids vuelven a donde estaban
     }
 
@@ -114,7 +142,8 @@ public class EjercicioService {
     public List<Ejercicio> listarEjercicios() {
     	List<Ejercicio> ejerciciosLista = ejercicios.listarValores();
     	OrdenarPorInsercion.ordenar(ejerciciosLista, Comparator.comparing(Ejercicio::getNombre, String.CASE_INSENSITIVE_ORDER));
-    	return ejerciciosLista;
+    	//Devuelve una copia de la lista
+    	return new ArrayList<>(ejerciciosLista);
     }
     /** Devuelve una lista ordenada de los ejercicios por el criterio solicitado */
     public List<Ejercicio> listarEjercicios(Comparator<Ejercicio> criterio) {
