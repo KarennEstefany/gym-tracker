@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -388,4 +389,99 @@ public class RutinaServiceTest {
 	void rutinaNula() {
 		assertThrows(RutinaInvalidaException.class, ()-> rutinaService.obtenerEjercicios(null));
 	}
+	
+	//Nuevas pruebas para el nuevo constructor 
+	
+	@Test
+	void creaElServicioConListasVacias() {
+		
+		List<Rutina> rutinaVacia = new ArrayList<>();
+		List<RutinaEjercicio> rutinaEjercicioVacia = new ArrayList<>();
+		RutinaService servicio = new RutinaService(rutinaVacia, rutinaEjercicioVacia);
+		
+	
+		assertEquals(1, servicio.crearRutina(Isabel, "Rutina1", DiaSemana.LUNES).getId() );
+		
+		
+		
+	}
+	
+	@Test 
+	void creaElServicioConListasVacias_primerIdRutinaEjercicio() {
+		
+		RutinaService servicio = new RutinaService(new ArrayList<Rutina>(), new ArrayList<RutinaEjercicio>());
+		
+		Rutina rutina = servicio.crearRutina(Isabel, "Rutina1", DiaSemana.LUNES);
+		
+		RutinaEjercicio re = servicio.agregarEjercicio(rutina, bulgara, 3, 10);
+		
+		assertEquals(1, re.getId());
+		
+	}
+	
+	
+	@Test
+	void cosntructor_conListasCargadas_siguientesIdsSonElMasAlto() {
+		//Crea las rutinas con id 3 y 7
+		Rutina r3 = new Rutina(3, "A", Isabel, DiaSemana.LUNES);
+		Rutina r7 = new Rutina(7,"B", Isabel, DiaSemana.MARTES);
+		
+		//Crea una lista vacía 
+		List<Rutina> rutinas  = new ArrayList<>();
+		
+		rutinas.add(r3);
+		rutinas.add(r7);
+		
+		//Lista vacia de RutinaEjercicio
+		List<RutinaEjercicio> ejercicios = new ArrayList<>();
+		
+		RutinaEjercicio rutinaE1 = new RutinaEjercicio(4, r3, bulgara, 1,3,10);
+		RutinaEjercicio rutinaE2 = new RutinaEjercicio(9, r7, bulgara, 1,3,10);
+		ejercicios.add(rutinaE1);
+		ejercicios.add(rutinaE2);
+		
+		RutinaService servicio = new RutinaService(rutinas, ejercicios);
+		
+		Rutina nueva = servicio.crearRutina(Isabel, "C", DiaSemana.MIERCOLES);
+		
+		assertEquals(8, nueva.getId());
+		assertEquals(10, servicio.agregarEjercicio(nueva, bulgara, 3, 10).getId());
+		
+		
+	}
+	
+	
+	@Test 
+	
+	void crearYAgregar_llegaAlasListasQueSeGuardan() {
+		
+		List<Rutina> rutinas = new ArrayList<>();
+		List<RutinaEjercicio> ejercicios = new ArrayList<>();
+		
+		RutinaService servicio = new RutinaService(rutinas, ejercicios);
+		
+		Rutina rutina = servicio.crearRutina(Isabel, "A", DiaSemana.LUNES);
+		servicio.agregarEjercicio(rutina, bulgara, 3, 10);
+		
+		
+		assertEquals(1, rutinas.size());
+		assertEquals(1, ejercicios.size());
+	}
+	
+	
+	@Test 
+	
+	void crearRutina_conDatosCargados_respetaUnaRutinaPorDia() {
+		
+		List<Rutina> rutinas  = new ArrayList<>();
+		rutinas.add(new Rutina(3, "A", Isabel, DiaSemana.LUNES));
+		RutinaService servicio = new RutinaService(rutinas, new ArrayList<RutinaEjercicio>());
+		
+		assertThrows(DiaRutinaDuplicadoException.class, () -> servicio.crearRutina(Isabel, "B", DiaSemana.LUNES));
+	}   
+	/**
+	rutinas.add(new Rutina(3,"A", Isabel, DiaSemana.LUNES));
+	RutinaService servicio = new RutinaService(rutinas, new ArrayList<RutinaEjercicio>)*/
+	
+	
 }
