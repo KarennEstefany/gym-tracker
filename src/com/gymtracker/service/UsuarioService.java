@@ -55,8 +55,9 @@ public class UsuarioService {
     			
     			maximo = u.getId(); //Actualiza el máximo si encuentra un Id mayor
     		}
-    		this.siguienteId = maximo + 1; 
+    		
     	}
+    	this.siguienteId = maximo + 1; 
     }
     /**
      * 
@@ -76,9 +77,9 @@ public class UsuarioService {
             throw new UsuarioDuplicadoException("Ya existe un usuario con ese documento");
         }
         
+        usuarios.add(nuevo);//lo agrega también a la lista
+        usuariosPorDocumento.insertar(nuevo.getDocumento(), nuevo); //Agrega a la tabla hash 
         
-        usuariosPorDocumento.insertar(nuevo.getDocumento(), nuevo);
-        usuarios.add(nuevo);
         siguienteId++;   // después de inssertar, el id solo se asigna si el registro se completa
         return nuevo;
     }
