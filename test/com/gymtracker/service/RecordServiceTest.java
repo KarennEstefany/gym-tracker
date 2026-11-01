@@ -375,8 +375,10 @@ public class RecordServiceTest {
 	void cualquierDiaDeLaSemana() {
 		cargarHistorialBase();
 		
-		for(int i= 0; i< 7; i++) {
-			assertEquals(2, recordService.calcularVolumenSemanal(sofia,"Cuádriceps", LUNES.plusDays(i)));
+		for(int i= 0; i< 7; i++) { // Recorre toda la semana del 26 de octubre, el lunes calculado debe ser el mismo (26 de oct)
+			//Por lo tanto, el volumen de cuadriceps debe ser solo el del los sets realizados el lunes (2 sets de sentadilla)
+			assertEquals(2, recordService.calcularVolumenSemanal(sofia,"Cuádriceps", LUNES.plusDays(i)), "Fallo con el dia " + LUNES.plusDays(i));
+			// assertEquals(esperado, obtenido, mensaje si el test falla) (Dice exactamante que en que dia fallo el test)
 		}
 	}
 	@Test
@@ -518,6 +520,7 @@ public class RecordServiceTest {
 		
 		for(String grupo : volumen.listarClaves()) {
 			assertEquals(recordService.calcularVolumenSemanal(sofia, grupo, LUNES), volumen.buscarValor(grupo), "El volumen de " + grupo + " no coincide");
+			// assertEquals(esperado, obtenido, mensaje si el test falla) (Dice exactamante que en que grupo muscular falla el test)
 		}
 	}
 	@Test
