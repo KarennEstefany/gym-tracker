@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +25,9 @@ import com.gymtracker.model.DiaSemana;
 import com.gymtracker.model.Ejercicio;
 import com.gymtracker.model.Objetivo;
 import com.gymtracker.model.Rutina;
+import com.gymtracker.model.SesionEntrenamiento;
 import com.gymtracker.model.SetPeso;
+import com.gymtracker.model.SetRegistro;
 import com.gymtracker.model.TipoEjercicio;
 import com.gymtracker.model.Usuario;
 import com.gymtracker.structures.TablaHash;
@@ -531,4 +535,5 @@ public class RecordServiceTest {
 	void volTFechaNula() {
 		assertThrows(FechaInvalidaException.class, () -> recordService.calcularVolumenSemanalTotal(sofia, null));
 	}
+	
 }

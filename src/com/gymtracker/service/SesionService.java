@@ -46,19 +46,49 @@ public class SesionService {
 	private int siguienteIdSet;
 	
 
-	
 	public SesionService(RutinaService rutinaService) {
+		
+		this(rutinaService, new ArrayList<SesionEntrenamiento>(), new ArrayList<SetRegistro>());
+	}
+	public SesionService(RutinaService rutinaService, List<SesionEntrenamiento> sesiones, List<SetRegistro> historial) {
 		if (rutinaService==null) {
 			throw new ObjetoNuloException("El RutinaService no puede ser nulo");
 		}
-
-		this.pilaDeshacer =new PilaAcciones<>();
 		this.rutinaService = rutinaService;
-		this.historial = new ArrayList<>();
+		this.sesiones = sesiones;
+		this.historial = historial;
 		this.colaPendientes = new ColaSets<>();
-		this.sesiones = new ArrayList<>();
+		this.pilaDeshacer =new PilaAcciones<>();
+		
+		
 		this.siguienteIdSesion=1;
 		this.siguienteIdSet=1;
+		
+		int maxSesion = 0;
+		for(SesionEntrenamiento se: sesiones) {
+			
+			if(se.getId()>maxSesion) {
+				maxSesion = se.getId();
+			}
+			if(se.getEstado() == EstadoSesion.EN_CURSO) {
+				
+				se.finalizarSesion(); // Si quedó abierta al cerrar la app no se puede reanudar 
+			}
+		}
+		
+		this.siguienteIdSesion = maxSesion +1;
+		
+		int maxSet = 0;
+		for(SetRegistro sr: historial) {
+			
+			if(sr.getId()> maxSet) {
+				
+				maxSet = sr.getId();
+			}
+			
+		}
+		
+		this.siguienteIdSet = maxSet + 1;
 	
 	}
 	

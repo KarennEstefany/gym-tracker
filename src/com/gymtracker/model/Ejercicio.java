@@ -1,5 +1,7 @@
 package com.gymtracker.model;
 
+import java.io.Serializable;
+
 import com.gymtracker.exceptions.CategoriaInvalidaException;
 import com.gymtracker.exceptions.EjercicioInvalidoException;
 import com.gymtracker.exceptions.GrupoMuscularInvalidoException;
@@ -7,7 +9,11 @@ import com.gymtracker.exceptions.GymTrackerException;
 import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
 
-public class Ejercicio {
+public class Ejercicio implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String codigo;
 	private String nombre;

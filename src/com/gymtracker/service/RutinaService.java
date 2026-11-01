@@ -29,15 +29,53 @@ public class RutinaService {
 	 
 	 
 	 public RutinaService() {
+		 
+		 
+		 this(new ArrayList<Rutina>(), new ArrayList<RutinaEjercicio>());
+		 
+		 
+		 
+		 /**
 		super();
 		this.rutinas = new ArrayList<>();
 		this.ejerciciosDeRutinas = new ArrayList<>();
 		this.siguienteIdRutina = 1;
 		this.siguienteIdRutinaEjercicio = 1;
+		*/
 	 }
 	 
 	   
 	 
+	 public RutinaService(List<Rutina> rutinas, List<RutinaEjercicio> ejerciciosDeRutinas) {
+		 
+		this.rutinas = rutinas;
+		this.ejerciciosDeRutinas = ejerciciosDeRutinas;
+		
+		int maxRutina = 0;
+		
+		for(Rutina r: rutinas) {
+			
+			if(r.getId()>maxRutina) {
+				
+				maxRutina = r.getId();
+			}
+			
+		}
+		
+		this.siguienteIdRutina = maxRutina +1;
+		
+		int maxEjercicio = 0;
+		for(RutinaEjercicio re: ejerciciosDeRutinas) {
+			
+			if(re.getId()>maxEjercicio) {
+				maxEjercicio = re.getId();
+			}
+		}
+		this.siguienteIdRutinaEjercicio = maxEjercicio + 1;
+	}
+
+
+
 	 /**
 	  * 
 	  * R3: crea una rutina; un usuario solo puede tener una por día. Devuelve la rutina creada 

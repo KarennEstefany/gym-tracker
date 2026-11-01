@@ -72,7 +72,7 @@ public class Tema {
 	public static JLabel crearEtiqueta(String texto) {
 		
 		JLabel etiqueta = new JLabel(texto);
-		etiqueta.setFont(new Font("SanSerif", Font.PLAIN, 13));
+		etiqueta.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		etiqueta.setForeground(TEXTO_SUAVE);
 		etiqueta.setAlignmentX(Component.LEFT_ALIGNMENT);
 		return etiqueta;
@@ -107,7 +107,7 @@ public class Tema {
 		enlace.setActionCommand(comando);
 		enlace.addActionListener(oyente);
 		enlace.setForeground(color);
-		enlace.setFont(new Font("SanSerif", Font.BOLD, 13));
+		enlace.setFont(new Font("SansSerif", Font.BOLD, 13));
 		enlace.setContentAreaFilled(false);
 		enlace.setBorderPainted(false);
 		enlace.setFocusPainted(false);

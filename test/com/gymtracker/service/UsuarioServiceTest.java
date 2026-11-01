@@ -2,19 +2,22 @@ package com.gymtracker.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import com.gymtracker.exceptions.ContrasenaInvalidaException;
 import com.gymtracker.exceptions.DocumentoInvalidoException;
 import com.gymtracker.exceptions.EdadEstaturaInvalidaException;
-import com.gymtracker.exceptions.EstructuraVaciaException;
-import com.gymtracker.exceptions.GymTrackerException;
 import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
 import com.gymtracker.exceptions.ObjetoNuloException;
@@ -27,9 +30,14 @@ public class UsuarioServiceTest {
 
 	private static final String CLAVE = "Clave1234";
 	private UsuarioService usuarioService;
+	
+	
+	
+	
 	@BeforeEach
 	void setUp() {
 		usuarioService= new UsuarioService();
+		
 	}
 	
 	private Usuario registrarUsuario(String documento) {
@@ -229,6 +237,110 @@ public class UsuarioServiceTest {
 		}
 		assertSame(usuarioService.buscarPorDocumento("DOC50"), usuarioService.ingresar("DOC50", CLAVE));
 	}
+	
+	
+
+	
+	@Nested 
+	class ConListaInicial {
+		
+		
+		private UsuarioService usuarioService;
+		private List<Usuario> listaInicial;
+		
+		@BeforeEach
+		void setUp2() {
+			usuarioService= new UsuarioService();
+			
+			listaInicial = new ArrayList<>();
+			listaInicial.add(new Usuario(5, "123", "Ana", 23,1.65, Objetivo.HIPERTROFIA, "Clave123"));
+			usuarioService = new UsuarioService(listaInicial);
+			
+		}
+		
+	
+	
+		// Agrega
+		@Test 
+		void buscarPorDocumento_LoEncuentra() {
+			
+			Usuario u1 = new Usuario(1, "123", "Ana", 23, 1.65, Objetivo.HIPERTROFIA , "Clave123");
+			
+			
+			List<Usuario> listaInicial = new ArrayList<>();
+			listaInicial.add(u1);
+			
+			
+			UsuarioService servicio = new UsuarioService(listaInicial);
+			
+			Usuario encontrado = servicio.buscarPorDocumento("123");
+			assertNotNull(encontrado);
+			assertEquals("Ana", encontrado.getNombre());
+			
+			
+		}
+		
+		
+		
+		
+		//Agrega
+		@Test
+		void constructor_reconstruyeElIndiceDeLaLista() {
+			
+			assertEquals("Ana", usuarioService.buscarPorDocumento("123").getNombre());
+		}
+		
+		
+		
+		//Agrega
+		@Test
+		void registrarUsuario_siguienteIDElMasAltoMasUno() {
+			
+			Usuario nuevo = usuarioService.registrarUsuario("321", "Juan", 23, 1.75, Objetivo.FUERZA, "Clave123");
+			
+			assertEquals(6, nuevo.getId());
+		}
+		
+		//Agrega
+		@Test
+		void registrarUsuario_loAgregaALaListaQueSeGuarda() {
+			
+			usuarioService.registrarUsuario("321", "Juan", 23, 1.75, Objetivo.FUERZA, "Clave123");
+			
+			assertEquals(2, listaInicial.size());
+		}
+		
+		//Agrega
+		
+		@Test 
+		void registrarUsuario_documentoRepetido_noAgregaNiGastaId() {
+			assertThrows(UsuarioDuplicadoException.class, () -> usuarioService.registrarUsuario("123", "Otra", 30, 1.75,Objetivo.FUERZA , "Clave123"));
+			assertEquals(1, listaInicial.size());
+			
+			Usuario nuevo = usuarioService.registrarUsuario("321", "Juan", 23, 1.75, Objetivo.FUERZA, "Clave123");
+			
+			assertEquals(6,nuevo.getId());
+			
+		}
+		
+		@Test
+		void constructorSinParametros_empiezaVacioConIdUno() {
+			
+			UsuarioService vacio = new UsuarioService();
+			Usuario primero = vacio.registrarUsuario("999", "Luis", 30, 1.80, Objetivo.FUERZA, "Clave123");
+			assertEquals(1, primero.getId());
+		}
+		
 	}
+	
+}
+		
+		
+	
+	
+	
+
+
+	
 
 

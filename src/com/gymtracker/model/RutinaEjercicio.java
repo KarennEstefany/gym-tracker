@@ -1,11 +1,17 @@
 package com.gymtracker.model;
 
+import java.io.Serializable;
+
 import com.gymtracker.exceptions.NumeroSetInvalidoException;
 
 import com.gymtracker.exceptions.ObjetoNuloException;
 import com.gymtracker.exceptions.OrdenInvalidoException;
 
-public class RutinaEjercicio {
+public class RutinaEjercicio implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private final Rutina rutina;
 	private final Ejercicio ejercicio;

@@ -3,13 +3,19 @@ package com.gymtracker.model;
 
 
 
+import java.io.Serializable;
 import java.time.LocalDate;
+
 import com.gymtracker.exceptions.FechaInvalidaException;
-import com.gymtracker.exceptions.SesionYaFinalizadaException;
 import com.gymtracker.exceptions.RutinaInvalidaException;
+import com.gymtracker.exceptions.SesionYaFinalizadaException;
 import com.gymtracker.exceptions.UsuarioInvalidoException;
 
-public class SesionEntrenamiento {
+public class SesionEntrenamiento implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final int id;
 	private final LocalDate fecha; 
 	private final Usuario usuario; 
