@@ -11,10 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.gymtracker.model.Usuario;
-import com.gymtracker.service.EjercicioService;
-import com.gymtracker.service.RutinaService;
-import com.gymtracker.service.SesionService;
-import com.gymtracker.service.UsuarioService;
+import com.gymtracker.service.Servicios;
 
 public class VentanaLogin extends JFrame {
 
@@ -31,10 +28,7 @@ public class VentanaLogin extends JFrame {
 	private static final String REGISTRO = "REGISTRO";
 	
 	
-	private final UsuarioService usuarioService;
-	private final EjercicioService ejercicioService;
-	private final RutinaService rutinaService;
-	private final SesionService sesionService;
+	private final Servicios servicios;
 	
 	
 	private final CardLayout cartas;
@@ -53,19 +47,14 @@ public class VentanaLogin extends JFrame {
 	 * @param pestanas
 	 *
 	 */
-	public VentanaLogin(UsuarioService usuarioService, EjercicioService ejercicioService, RutinaService rutinaService,
-			SesionService sesionService) {
+	public VentanaLogin(Servicios servicios) {
 		super("Gym Tracker");
-		this.usuarioService = usuarioService;
-		this.ejercicioService = ejercicioService;
-		this.rutinaService = rutinaService;
-		this.sesionService = sesionService;
-	
+		this.servicios = servicios;
 	
 
-		panelIngreso =  new PanelIngreso(usuarioService, this);
+		panelIngreso =  new PanelIngreso(servicios.getUsuarios(), this);
 		
-		panelRegistro = new PanelRegistro(usuarioService, this);
+		panelRegistro = new PanelRegistro(servicios.getUsuarios(), this);
 		
 		
 		cartas = new CardLayout();
@@ -100,11 +89,11 @@ public class VentanaLogin extends JFrame {
 		encabezado.setBorder(BorderFactory.createEmptyBorder(16,32,16,32));
 		
 		JLabel logo = new JLabel("GYM TRACKER");
-		logo.setFont(new Font("SanSerif", Font.BOLD, 22));
+		logo.setFont(new Font("SansSerif", Font.BOLD, 22));
 		logo.setForeground(Tema.TEXTO);
 		
 		JLabel etiqueta = new JLabel("GYM TRACKER");
-		etiqueta.setFont(new Font("SanSerif", Font.PLAIN, 12));
+		etiqueta.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		etiqueta.setForeground(Tema.TEXTO_SUAVE);
 		
 		encabezado.add(logo, BorderLayout.WEST);
@@ -131,7 +120,7 @@ public class VentanaLogin extends JFrame {
 		 * @param usuario
 		 */
 		public void abrirPrincipal(Usuario usuario) {
-			VentanaPrincipal principal = new VentanaPrincipal(usuario, usuarioService, rutinaService, ejercicioService, sesionService);
+			VentanaPrincipal principal = new VentanaPrincipal(usuario, servicios);
 			principal.setVisible(true);
 			dispose();
 		
