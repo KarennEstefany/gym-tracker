@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gymtracker.model.Ejercicio;
+import com.gymtracker.model.MedicionInBody;
 import com.gymtracker.model.Rutina;
 import com.gymtracker.model.RutinaEjercicio;
 import com.gymtracker.model.SesionEntrenamiento;
@@ -24,6 +25,7 @@ public class DatosApp implements Serializable {
 	private final List<RutinaEjercicio> ejerciciosDeRutinas = new ArrayList<RutinaEjercicio>();
 	private final List<SesionEntrenamiento> sesiones = new ArrayList<SesionEntrenamiento>();
 	private final List<SetRegistro> historial = new ArrayList<SetRegistro>();
+	private final List<MedicionInBody> mediciones = new ArrayList<MedicionInBody>();
 	
 	
 	
@@ -63,6 +65,12 @@ public class DatosApp implements Serializable {
 	public List<SetRegistro> getHistorial() {
 		return historial;
 	}
+	
+	public List<MedicionInBody> getMediciones(){
+		return mediciones;
+	}
+	
+	
 	
 	
 	
