@@ -62,7 +62,7 @@ public class PanelIngreso extends JPanel implements ActionListener{
 		
 		
 		JLabel titulo = new JLabel("Iniciar Sesión");
-		titulo.setFont(new Font("SansSErif", Font.BOLD,28));
+		titulo.setFont(new Font("SansSerif", Font.BOLD,28));
 		titulo.setForeground(Tema.TEXTO);
 		titulo.setAlignmentX(LEFT_ALIGNMENT);
 		

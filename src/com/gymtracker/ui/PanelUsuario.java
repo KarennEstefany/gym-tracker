@@ -22,7 +22,7 @@ public class PanelUsuario extends PanelPestana {
 		this.usuarioService = usuarioService;
 		this.rutinaService = rutinaService;
 		
-		add(new JLabel("Perfil de " + usuario.getNombre() + "pendiente"));
+		add(new JLabel("Perfil de " + usuario.getNombre() + " pendiente" + usuario.getId()));
 	}
 	
 	

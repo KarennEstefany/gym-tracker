@@ -16,10 +16,7 @@ import com.gymtracker.exceptions.GymTrackerException;
 import com.gymtracker.model.EstadoSesion;
 import com.gymtracker.model.SesionEntrenamiento;
 import com.gymtracker.model.Usuario;
-import com.gymtracker.service.EjercicioService;
-import com.gymtracker.service.RutinaService;
-import com.gymtracker.service.SesionService;
-import com.gymtracker.service.UsuarioService;
+import com.gymtracker.service.Servicios;
 
 
 public class VentanaPrincipal extends JFrame implements ActionListener{
@@ -33,10 +30,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener{
 	private static final String  CERRAR_SESION = "CERRAR_SESION";
 	
 	private Usuario usuarioActual;
-	private UsuarioService usuarioService;
-	private EjercicioService ejercicioService;
-	private RutinaService rutinaService;
-	private SesionService sesionService;
+	private Servicios servicios;
 	
 	private final JTabbedPane pestanas;
 	private final PanelUsuario panelUsuario;
@@ -46,22 +40,19 @@ public class VentanaPrincipal extends JFrame implements ActionListener{
 	private final PanelInBody panelInBody;
 	
 	
-	public VentanaPrincipal(Usuario usuario,  UsuarioService usuarioService, RutinaService rutinaService,EjercicioService ejercicioService, SesionService sesionService){
+	public VentanaPrincipal(Usuario usuario,  Servicios servicios){
 		
 		super("Gym Tracker - " + usuario.getNombre());
 		
 		
 		this.usuarioActual= usuario;
-		this.usuarioService = usuarioService;
-		
-		this.ejercicioService = ejercicioService;
-		this.rutinaService = rutinaService;
-		this.sesionService = sesionService;
+		this.servicios = servicios;
 		
 		
-		panelUsuario = new PanelUsuario(usuario, usuarioService, rutinaService);
-		panelRutinas = new PanelRutinas(usuario,rutinaService, ejercicioService);
-		panelEntrenar = new PanelEntrenar(usuario, sesionService, rutinaService);
+		
+		panelUsuario = new PanelUsuario(usuario, servicios.getUsuarios(), servicios.getRutinas());
+		panelRutinas = new PanelRutinas(usuario,servicios.getRutinas(), servicios.getEjercicios());
+		panelEntrenar = new PanelEntrenar(usuario, servicios.getSesiones(), servicios.getRutinas());
 		panelProgreso = new PanelProgreso(usuario);
 		panelInBody = new PanelInBody(usuario);
 		
@@ -125,7 +116,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener{
 	
 	private void cerrarSesion() {
 		
-		SesionEntrenamiento activa = sesionService.getSesionActiva();
+		SesionEntrenamiento activa = servicios.getSesiones().getSesionActiva();
 		boolean entrenando = activa != null && activa.getEstado() == EstadoSesion.EN_CURSO && activa.getUsuario().equals(usuarioActual);
 		
 		if(entrenando) {
@@ -136,7 +127,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener{
 			}
 			
 			try {
-				sesionService.finalizarSesion();
+				servicios.getSesiones().finalizarSesion();
 				
 			} catch(GymTrackerException ex) {
 				JOptionPane.showMessageDialog(this, ex.getMessage(), "No se puedo finalizar", JOptionPane.ERROR_MESSAGE);
@@ -146,7 +137,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener{
 		
 		}
 		
-		new VentanaLogin(usuarioService, ejercicioService, rutinaService, sesionService).setVisible(true);
+		new VentanaLogin(servicios).setVisible(true);
 		
 		dispose();
 		
