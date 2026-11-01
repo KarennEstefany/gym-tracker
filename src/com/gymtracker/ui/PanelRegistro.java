@@ -202,6 +202,7 @@ public class PanelRegistro extends JPanel implements ActionListener {
 			if(!contrasena.equals(confirmacion)) {
 				limpiarContrasenas();
 				JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.", "Registro", JOptionPane.WARNING_MESSAGE);
+				return;
 				
 			}
 			
