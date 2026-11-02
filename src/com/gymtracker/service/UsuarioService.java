@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.gymtracker.exceptions.ContrasenaInvalidaException;
 import com.gymtracker.exceptions.UsuarioDuplicadoException;
+import com.gymtracker.exceptions.UsuarioInvalidoException;
 import com.gymtracker.exceptions.UsuarioNoEncontradoException;
 import com.gymtracker.model.Objetivo;
 import com.gymtracker.model.Usuario;
@@ -132,5 +133,29 @@ public class UsuarioService {
 
     public int darCantidad() {
         return usuariosPorDocumento.darTamanio();
+    }
+    public void actualizarPerfil(Usuario usuario, String nombre, int edad, double estatura, Objetivo objetivo) {
+    	if(usuario == null) {
+    		throw new UsuarioInvalidoException("Debe indicar un usuario para actualizar su perfil");
+    	}
+    	//Guarda los valores actuales
+    	String nombreAntiguo = usuario.getNombre();
+    	int edadAntigua = usuario.getEdad();
+    	double estaturaAntigua = usuario.getEstatura();
+    	Objetivo objetivoAntiguo = usuario.getObjetivo();
+    	try {
+    		//Intenta realizar los 4 cambios en el estado del usuario
+    		usuario.setNombre(nombre);
+    		usuario.setEdad(edad);
+    		usuario.setEstatura(estatura);
+    		usuario.setObjetivo(objetivo);
+    	}
+    	catch(RuntimeException e) { // Si algun dato es invalido, se mantienen/ restauran los valores anteriores (originales) y se muestra el error
+    		usuario.setNombre(nombreAntiguo);
+    		usuario.setEdad(edadAntigua);
+    		usuario.setEstatura(estaturaAntigua);
+    		usuario.setObjetivo(objetivoAntiguo);
+    		throw e;
+    	}
     }
 }

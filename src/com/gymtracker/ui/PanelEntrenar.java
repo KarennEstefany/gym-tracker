@@ -22,7 +22,7 @@ public class PanelEntrenar extends PanelPestana{
 		this.sesionService = sesionService;
 		this.rutinaService = rutinaService;
 		
-		add(new JLabel("Panel de etrenamiento de " + usuario.getNombre() + "pendiente"));
+		add(new JLabel("Panel de etrenamiento de " + usuario.getNombre() + " pendiente"));
 		
 	}
 	

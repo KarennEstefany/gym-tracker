@@ -22,6 +22,7 @@ import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
 import com.gymtracker.exceptions.ObjetoNuloException;
 import com.gymtracker.exceptions.UsuarioDuplicadoException;
+import com.gymtracker.exceptions.UsuarioInvalidoException;
 import com.gymtracker.exceptions.UsuarioNoEncontradoException;
 import com.gymtracker.model.Objetivo;
 import com.gymtracker.model.Usuario;
@@ -330,6 +331,61 @@ public class UsuarioServiceTest {
 			Usuario primero = vacio.registrarUsuario("999", "Luis", 30, 1.80, Objetivo.FUERZA, "Clave123");
 			assertEquals(1, primero.getId());
 		}
+	///////////////prueba de actualizar perfil///////////////////////////\
+	@Test
+	void actualizarPerfilCorrecto() {
+		Usuario maria=usuarioService.registrarUsuario("100", "Maria", 18, 1.7, Objetivo.RESISTENCIA, CLAVE);
+		usuarioService.actualizarPerfil(maria, "Maria Paula", 19, 1.73, Objetivo.FUERZA);
+		assertEquals("Maria Paula", maria.getNombre());
+		assertEquals(19, maria.getEdad());
+		assertEquals(1.73, maria.getEstatura());
+		assertEquals(Objetivo.FUERZA, maria.getObjetivo());
+	}
+	@Test
+	void actualizarPerfilUsuarioNulo() {
+		Usuario maria=usuarioService.registrarUsuario("100", "Maria", 18, 1.7, Objetivo.RESISTENCIA, CLAVE);
+		assertThrows(UsuarioInvalidoException.class, () ->  usuarioService.actualizarPerfil(null, "Maria Paula", 19, 1.73, Objetivo.FUERZA));
+		assertEquals("Maria", maria.getNombre());
+		assertEquals(18, maria.getEdad());
+		assertEquals(1.7, maria.getEstatura());
+		assertEquals(Objetivo.RESISTENCIA, maria.getObjetivo());
+	}
+	@Test
+	void actualizarPerfilNombreVacio() {
+		Usuario maria=usuarioService.registrarUsuario("100", "Maria", 18, 1.7, Objetivo.RESISTENCIA, CLAVE);
+		assertThrows(NombreNullException.class, () -> usuarioService.actualizarPerfil(maria, "", 19, 1.73, Objetivo.FUERZA));
+		assertEquals("Maria", maria.getNombre());
+		assertEquals(18, maria.getEdad());
+		assertEquals(1.7, maria.getEstatura());
+		assertEquals(Objetivo.RESISTENCIA, maria.getObjetivo());
+	}
+	@Test
+	void actualizarPerfilEdadInvalida() {
+		Usuario maria=usuarioService.registrarUsuario("100", "Maria", 18, 1.7, Objetivo.RESISTENCIA, CLAVE);
+		assertThrows(EdadEstaturaInvalidaException.class, () ->  usuarioService.actualizarPerfil(maria, "Maria Paula", 0, 1.73, Objetivo.FUERZA));
+		assertEquals("Maria", maria.getNombre());
+		assertEquals(18, maria.getEdad());
+		assertEquals(1.7, maria.getEstatura());
+		assertEquals(Objetivo.RESISTENCIA, maria.getObjetivo());
+	}
+	@Test
+	void actualizarPerfilEstaturaInvalida() {
+		Usuario maria=usuarioService.registrarUsuario("100", "Maria", 18, 1.7, Objetivo.RESISTENCIA, CLAVE);
+		assertThrows(EdadEstaturaInvalidaException.class, () -> usuarioService.actualizarPerfil(maria, "Maria Paula", 19, 0.4, Objetivo.FUERZA));
+		assertEquals("Maria", maria.getNombre());
+		assertEquals(18, maria.getEdad());
+		assertEquals(1.7, maria.getEstatura());
+		assertEquals(Objetivo.RESISTENCIA, maria.getObjetivo());
+	}
+	@Test
+	void actualizarPerfilObjetivoInvalido() {
+		Usuario maria=usuarioService.registrarUsuario("100", "Maria", 18, 1.7, Objetivo.RESISTENCIA, CLAVE);
+		assertThrows(ObjetivoInvalidoException.class, () -> usuarioService.actualizarPerfil(maria, "Maria Paula", 19, 1.4, null));
+		assertEquals("Maria", maria.getNombre());
+		assertEquals(18, maria.getEdad());
+		assertEquals(1.7, maria.getEstatura());
+		assertEquals(Objetivo.RESISTENCIA, maria.getObjetivo());
+	}
 		
 	}
 	
