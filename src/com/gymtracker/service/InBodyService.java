@@ -3,6 +3,7 @@ package com.gymtracker.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.gymtracker.model.MedicionInBody;
 import com.gymtracker.model.Usuario;
@@ -63,6 +64,9 @@ public class InBodyService {
 		return mediciones;
 		
 		
+	}
+	public Optional<MedicionInBody> obtenerUltimaMedicion(Usuario usuario){
+		//TODO
 	}
 	
 	//TODO comparar e importar se agrega después 
