@@ -113,10 +113,10 @@ public class SesionService {
 		}
 		
 		
-		Optional<Rutina> rutina = buscarRutinaDelDia(usuario, dia);
+		Optional<Rutina> rutina = buscarRutinaDelDia(usuario, fecha);
 		
 		if (!rutina.isPresent()) {
-			throw new SinRutinaParaHoyException("No hay rutina planificada para hoy ("+dia+")");}
+			throw new SinRutinaParaHoyException("No hay rutina planificada para hoy ("+fecha+")");}
 		
 		List<RutinaEjercicio> ejercicios = rutinaService.obtenerEjercicios(rutina.get());
 		if (ejercicios.isEmpty()) {
