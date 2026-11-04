@@ -116,5 +116,6 @@ public class InBodyService {
 	return peso/(estatura *estatura);
 	}
 	
+	
 	//TODO comparar e importar se agrega después 
 }

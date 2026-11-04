@@ -17,6 +17,7 @@ import com.gymtracker.exceptions.SesionYaFinalizadaException;
 import com.gymtracker.exceptions.SinRutinaParaHoyException;
 import com.gymtracker.exceptions.SinSesionActivaException;
 import com.gymtracker.exceptions.UsuarioInvalidoException;
+import com.gymtracker.model.DiaSemana;
 import com.gymtracker.model.EstadoSesion;
 import com.gymtracker.model.Rutina;
 import com.gymtracker.model.RutinaEjercicio;
@@ -29,7 +30,6 @@ import com.gymtracker.model.TipoEjercicio;
 import com.gymtracker.model.Usuario;
 import com.gymtracker.structures.ColaSets;
 import com.gymtracker.structures.PilaAcciones;
-import com.gymtracker.model.DiaSemana;
 
 /**
  * Guarda el historial de sets, el registro de la sesion
@@ -112,11 +112,11 @@ public class SesionService {
 			
 		}
 		
-		DiaSemana dia = mapearDiaSemana(fecha.getDayOfWeek());
-		Optional<Rutina> rutina = rutinaService.buscarRutinaPorDia(usuario, dia);
+		
+		Optional<Rutina> rutina = buscarRutinaDelDia(usuario, fecha);
 		
 		if (!rutina.isPresent()) {
-			throw new SinRutinaParaHoyException("No hay rutina planificada para hoy ("+dia+")");}
+			throw new SinRutinaParaHoyException("No hay rutina planificada para hoy ("+fecha+")");}
 		
 		List<RutinaEjercicio> ejercicios = rutinaService.obtenerEjercicios(rutina.get());
 		if (ejercicios.isEmpty()) {
@@ -221,6 +221,19 @@ public class SesionService {
 	}
 	public SesionEntrenamiento getSesionActiva() {
 		return sesionActiva;
+	}
+	/**
+	 * Rutina que le toca al usuario en esa fecha, o vacío si es día de descanso.
+	 * No inicia ninguna sesión: solo consulta (la usa la vista previa de PanelEntrenar).
+	 */
+	public Optional<Rutina> buscarRutinaDelDia(Usuario usuario, LocalDate fecha) {
+	    if (usuario == null) {
+	        throw new UsuarioInvalidoException("Debe indicar un usuario");
+	    }
+	    if (fecha == null) {
+	        throw new FechaInvalidaException("La fecha no puede ser nula");
+	    }
+	    return rutinaService.buscarRutinaPorDia(usuario, mapearDiaSemana(fecha.getDayOfWeek()));
 	}
 	
 	/////////////////////Metodos auxiliares del service//////////////////////////////
