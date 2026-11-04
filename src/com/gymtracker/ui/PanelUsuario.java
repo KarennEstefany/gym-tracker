@@ -63,7 +63,7 @@ public class PanelUsuario extends PanelPestana implements ActionListener {
 	private final JPanel listaRutinas;
 	private final JLabel valorImc;
 	
-	public PanelUsuario(Usuario usuario, UsuarioService usuarioService, RutinaService rutinaService) {
+	public PanelUsuario(Usuario usuario, UsuarioService usuarioService, RutinaService rutinaService, InBodyService inBodyService) {
 		super();
 		this.usuario = usuario;
 		this.usuarioService = usuarioService;
@@ -243,7 +243,7 @@ public class PanelUsuario extends PanelPestana implements ActionListener {
 	
 	/////////////////Metodos auxiliares para la estetica y presentacion///////////////
 	
-	//Crea una columna con titulo
+	//Crea una columna/Subtarjeta con titulo
 	private JPanel crearColumna(String titulo) {
 		JPanel columna = new JPanel();
 		columna.setLayout(new BoxLayout(columna, BoxLayout.Y_AXIS));

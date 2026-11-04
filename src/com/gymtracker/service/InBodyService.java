@@ -65,9 +65,7 @@ public class InBodyService {
 		
 		
 	}
-	public Optional<MedicionInBody> obtenerUltimaMedicion(Usuario usuario){
-		//TODO
-	}
+	
 	
 	//TODO comparar e importar se agrega después 
 	
