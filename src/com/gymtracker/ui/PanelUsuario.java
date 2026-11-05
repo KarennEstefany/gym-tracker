@@ -50,6 +50,7 @@ public class PanelUsuario extends PanelPestana implements ActionListener {
 	private final Usuario usuario;
 	private final UsuarioService usuarioService;
 	private final RutinaService rutinaService;
+	private final InBodyService inBodyService;
 	
 	//Columna izquierda, donde van los datos del perfil
 	private final JLabel valorDocumento;
@@ -68,6 +69,7 @@ public class PanelUsuario extends PanelPestana implements ActionListener {
 		this.usuario = usuario;
 		this.usuarioService = usuarioService;
 		this.rutinaService = rutinaService;
+		this.inBodyService = inBodyService;
 		
 		//Se crean los componentes para modificar o leer
 		valorDocumento = crearValor(""); //Se crea vacio porque el metodo exige un String, actualizar asigna el dato real
@@ -175,12 +177,11 @@ public class PanelUsuario extends PanelPestana implements ActionListener {
 		comboObjetivo.setSelectedItem(usuario.getObjetivo());
 		mostrarRutinas();
 		
-		Optional<MedicionInBody> ultimaMedicion = InBodyService.obtenerUltimaMedicion(usuario);
-		
 		//aquí se muestra el IMC de la última medición.
-				//el panel solo muestra lo que le devuelve el service.
+		//el panel solo muestra lo que le devuelve el service.
+		Optional<MedicionInBody> ultimaMedicion = inBodyService.obtenerUltimaMedicion(usuario);
 		
-		valorImc.setText(ultima.map(m-> String.format("%.1f", m.getImc())).orElse("-"));
+		valorImc.setText(ultimaMedicion.map(m-> String.format("%.1f", m.getImc())).orElse("-"));
 		
 	}
 	

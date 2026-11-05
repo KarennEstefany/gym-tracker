@@ -103,7 +103,7 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 		listaEjercicios.setLayout(new BoxLayout(listaEjercicios, BoxLayout.Y_AXIS));
 		listaEjercicios.setOpaque(false);
 		listaEjercicios.setAlignmentX(Component.LEFT_ALIGNMENT);
-		botonIniciar =Tema.crearBotonPrimario("Iniciar sesison de entrenamiento", INICIAR, this);
+		botonIniciar =Tema.crearBotonPrimario("Iniciar sesion de entrenamiento", INICIAR, this);
 		
 		JPanel columnaVPrevia= crearColumna("Vista previa del entreno de hoy");
 		columnaVPrevia.add(Tema.crearEtiqueta("Rutina de hoy"));
