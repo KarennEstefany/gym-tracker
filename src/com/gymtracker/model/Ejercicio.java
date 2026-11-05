@@ -93,10 +93,20 @@ public class Ejercicio implements Serializable {
 		}
 		return objetivo;
 	}
+	
+	public String getUnidadObjetivo() {
+		
+		if(tipo == TipoEjercicio.PESO) {
+			
+			return "reps";
+		}
+		
+		return "seg";
+	}
+	
 	@Override
 	public String toString() {
-		return "Ejercicio [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + ", grupoMuscular=" + grupoMuscular
-				+ ", categoria=" + categoria + ", tipo=" + tipo + "]";
+		return  nombre + "(" + grupoMuscular ;
 	}
 	public TipoEjercicio verificarTipo(TipoEjercicio tipo) {
 		if(tipo==null) {
