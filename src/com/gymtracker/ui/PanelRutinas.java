@@ -26,6 +26,8 @@ import com.gymtracker.model.Rutina;
 import com.gymtracker.model.RutinaEjercicio;
 import com.gymtracker.model.Usuario;
 import com.gymtracker.service.DialogoNuevaRutina;
+import com.gymtracker.service.EjercicioService;
+import com.gymtracker.service.RutinaService;
 import com.gymtracker.service.Servicios;
 
 public class PanelRutinas extends PanelPestana implements ActionListener, ListSelectionListener {
@@ -36,25 +38,26 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 	private static final long serialVersionUID = 1L;
 
 	
-	/**
 	
-	private final RutinaService rutinaService;
-	private final EjercicioService ejercicioService;
 	
-	*/
+	
+	
 	public static final String NUEVA_RUTINA = "NUEVA_RUTINA";
 	
 	private final Usuario usuario;
-	private final Servicios servicios;
+	private final RutinaService rutinaService;
+	private final EjercicioService ejercicioService;
+	
 	
 	private final ModeloRutinas modelo;
 	private final JTextArea areaDetalle;
 	private final JTable tabla;
 	
-	public PanelRutinas(Usuario usuario, Servicios servicios) {
+	public PanelRutinas(Usuario usuario, RutinaService rutinaService, EjercicioService ejercicioService) {
 		super();
 		this.usuario = usuario;
-		this.servicios = servicios;
+		this.rutinaService = rutinaService;
+		this.ejercicioService = ejercicioService;
 		
 		
 		setLayout(new BorderLayout(0,12));
@@ -114,7 +117,7 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 	@Override 
 	public void actualizar() {
 		
-		List<Rutina> rutinas = servicios.getRutinas().listarRutinas(usuario);
+		List<Rutina> rutinas = rutinaService.listarRutinas(usuario);
 		OrdenarPorInsercion.ordenar(rutinas, new Comparator<Rutina>() {
 			
 			@Override
@@ -144,7 +147,7 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 		
 		Rutina rutina = modelo.getRutina(fila);
 		StringBuilder texto = new StringBuilder();
-		for(RutinaEjercicio re: servicios.getRutinas().obtenerEjercicios(rutina)) {
+		for(RutinaEjercicio re: rutinaService.obtenerEjercicios(rutina)) {
 			
 			texto.append(re.getOrdenEnRutina()).append(". ")
 			.append(re.getEjercicio().getNombre()).append(" -")
@@ -163,9 +166,7 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 	public void actionPerformed(ActionEvent e) {
 		
 		if(NUEVA_RUTINA.equals(e.getActionCommand())) {
-			DialogoNuevaRutina dialogo = new DialogoNuevaRutina(
-						SwingUtilities.getWindowAncestor(this), usuario, servicios.getRutinas(), servicios.getEjercicios()
-					);
+			DialogoNuevaRutina dialogo = new DialogoNuevaRutina(SwingUtilities.getWindowAncestor(this), usuario, rutinaService, ejercicioService);
 			actualizar();
 		}
 		
@@ -217,7 +218,7 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 				return r.getNombre();
 			case 1:
 				return r.getDiaSemana();
-			default: return servicios.getRutinas().obtenerEjercicios(r).size();
+			default: return rutinaService.obtenerEjercicios(r).size();
 				
 				}
 					
