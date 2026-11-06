@@ -19,6 +19,7 @@ import com.gymtracker.exceptions.DiaSemanaInvalidaException;
 import com.gymtracker.exceptions.EjercicioInvalidoException;
 import com.gymtracker.exceptions.GymTrackerException;
 import com.gymtracker.exceptions.NombreNullException;
+import com.gymtracker.exceptions.ObjetivoInvalidoException;
 import com.gymtracker.exceptions.OrdenInvalidoException;
 import com.gymtracker.exceptions.RutinaInvalidaException;
 import com.gymtracker.exceptions.UsuarioInvalidoException;
@@ -479,7 +480,104 @@ public class RutinaServiceTest {
 		
 		//Lanza la excepcion si encuentra una rutina  para el mismo dia ( la regla de negocio es que solo se puede tener una rutina por día ) 
 		assertThrows(DiaRutinaDuplicadoException.class, () -> servicio.crearRutina(Isabel, "B", DiaSemana.LUNES));
-	}   
+	} 
+
+	//Nuevas pruebas para método de crear rutina con ejercicios 
 	
+	@Test
+	void crearRutinaConEjercicios_guardaTodoEnOrden() {
+		
+		List<ItemRutina> items = new ArrayList<>();
+		items.add(new ItemRutina(sentadilla, 4, 10));
+		
+		items.add(new ItemRutina(plancha, 3, 60));
+		Rutina rutina = rutinaService.crearRutinaConEjercicios(Isabel, "Día de pierna", DiaSemana.LUNES, items);
+		
+		List<RutinaEjercicio> guardados = rutinaService.obtenerEjercicios(rutina);
+		assertEquals(2, guardados.size());
+		assertEquals(1, guardados.get(0).getOrdenEnRutina());
+		assertEquals(2, guardados.get(1).getOrdenEnRutina());
+		
+	}
+	
+	@Test 
+	void crearRutinaConEjercicios_siUnItemEsInvalido_noGuardaNiGastaIds() {
+		
+		List<ItemRutina> items = new ArrayList<>();
+		items.add(new ItemRutina(sentadilla, 4, 10));
+		items.add(new ItemRutina(bulgara,4, 100));
+		
+		
+		assertThrows(ObjetivoInvalidoException.class, ()-> rutinaService.crearRutinaConEjercicios(Isabel, "A", DiaSemana.LUNES, items));
+		
+		assertTrue(rutinaService.listarRutinas(Isabel).isEmpty());
+		
+		List<ItemRutina> validos = new ArrayList<>();
+		
+		validos.add(new ItemRutina(sentadilla, 3, 10));
+		validos.add(new ItemRutina(bulgara, 3, 10));
+		Rutina rutina = rutinaService.crearRutinaConEjercicios(Isabel, "A", DiaSemana.LUNES, validos);
+		assertEquals(1,rutina.getId());
+		assertEquals(1, rutinaService.obtenerEjercicios(rutina).get(0).getId());
+		assertEquals(2, rutinaService.obtenerEjercicios(rutina).get(1).getId());
+	}
+	
+	@Test 
+	void crearRutinaConEjercicios_listaVacia_lanzaRutinaInvalida() {
+		
+		List<ItemRutina> listaVacia = new ArrayList<>();
+		
+		
+		
+		assertThrows(RutinaInvalidaException.class, () -> rutinaService.crearRutinaConEjercicios(Isabel, "B", DiaSemana.JUEVES, listaVacia));
+	}
+	
+	@Test 
+	void crearRutinaConEjericios_ListaNula_LanzaRutinaInvalida() {
+		
+		assertThrows(RutinaInvalidaException.class, ()-> rutinaService.crearRutinaConEjercicios(Isabel, "B", DiaSemana.MARTES, null));
+	}
+	
+	
+	 @Test
+	 void crearRutinaConEjercicios_diaOcupado_lanzaDiaRutinaDuplicado() {
+		 
+		 rutinaService.crearRutina(Isabel, "Existente",DiaSemana.LUNES);
+		 
+		 List<ItemRutina> items = new ArrayList<>();
+		 
+		 items.add(new ItemRutina(sentadilla, 4, 10));
+		 
+		 assertThrows(DiaRutinaDuplicadoException.class, ()-> rutinaService.crearRutinaConEjercicios(Isabel, "Nueva", DiaSemana.LUNES, items));
+		 
+	 }
+	
+	@Test 
+	
+	void crearRutinaConEjercicios_llegaALasListasQueSeGuardan() {
+		
+		List<Rutina> rutinas = new ArrayList<>();
+		
+		List<RutinaEjercicio> ejercicios = new ArrayList<>();
+		
+		RutinaService servicio = new RutinaService(rutinas, ejercicios);
+		List<ItemRutina> items = new ArrayList<>();
+		items.add(new ItemRutina(sentadilla, 3,10));
+		items.add(new ItemRutina(bulgara,3,9));
+		
+		servicio.crearRutinaConEjercicios(Isabel, "A", DiaSemana.LUNES, items);
+		assertEquals(1,rutinas.size());
+		assertEquals(2, ejercicios.size());
+		
+		
+	}
+	
+	@Test 
+	void itemRutina_ejercicioNulo_lanzaEjercicioInvalidoExcepcion() {
+		
+		assertThrows(EjercicioInvalidoException.class, ()-> new ItemRutina(null, 3,10));
+		
+		
+	}
 	
 }
