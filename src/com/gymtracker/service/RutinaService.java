@@ -83,6 +83,8 @@ public class RutinaService {
 	 * @param nombre
 	 * @param dia
 	 * @return nueva	 */
+	 
+	 
 	public Rutina crearRutina(Usuario usuario, String nombre, DiaSemana dia) {
 		 
 		 validarUsuario(usuario);
@@ -94,7 +96,40 @@ public class RutinaService {
 		 return nueva;
 		 
 	 }
+	
 	 
+	
+	public Rutina crearRutinaConEjercicios(Usuario usuario, String nombre, DiaSemana dia, List<ItemRutina> items ) {
+		
+		validarUsuario(usuario);
+		if(items == null || items.isEmpty()) {
+			
+			throw new RutinaInvalidaException("La rutina debe tener al menos un ejercicio");
+		}
+		
+		validarDiaLibre(usuario, dia, null);
+		
+		Rutina nueva = new Rutina(siguienteIdRutina, nombre, usuario, dia);
+		
+		List<RutinaEjercicio> nuevos = new ArrayList<RutinaEjercicio>();
+		int idEjercicio = siguienteIdRutinaEjercicio;
+		int orden = 1;
+		for(ItemRutina item: items) {
+			nuevos.add(new RutinaEjercicio(idEjercicio, nueva, item.getEjercicio(),orden, item.getSets(), item.getObjetivo()));
+			idEjercicio++;
+			orden++;
+		}
+		
+		//Si todo se construyó sin errores se guarda la rutina 
+		
+		rutinas.add(nueva);
+		ejerciciosDeRutinas.addAll(nuevos);
+		siguienteIdRutina++;
+		siguienteIdRutinaEjercicio = idEjercicio;
+		return nueva;
+		
+		
+	}
 	
 	
 	 /**
@@ -119,6 +154,8 @@ public class RutinaService {
      * @param objetivo	
      * @return
      */
+	
+	
     public RutinaEjercicio agregarEjercicio(Rutina rutina, Ejercicio ejercicio, int sets, int objetivo) {
         validarRutina(rutina);
         if (ejercicio == null) {
