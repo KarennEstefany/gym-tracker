@@ -1,6 +1,8 @@
 package com.gymtracker.ui;
 
+
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,10 +27,8 @@ import com.gymtracker.algorithms.OrdenarPorInsercion;
 import com.gymtracker.model.Rutina;
 import com.gymtracker.model.RutinaEjercicio;
 import com.gymtracker.model.Usuario;
-import com.gymtracker.service.DialogoNuevaRutina;
 import com.gymtracker.service.EjercicioService;
 import com.gymtracker.service.RutinaService;
-import com.gymtracker.service.Servicios;
 
 public class PanelRutinas extends PanelPestana implements ActionListener, ListSelectionListener {
 
@@ -36,10 +36,6 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	
-	
-	
 	
 	
 	public static final String NUEVA_RUTINA = "NUEVA_RUTINA";
@@ -54,7 +50,7 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 	private final JTable tabla;
 	
 	public PanelRutinas(Usuario usuario, RutinaService rutinaService, EjercicioService ejercicioService) {
-		super();
+		
 		this.usuario = usuario;
 		this.rutinaService = rutinaService;
 		this.ejercicioService = ejercicioService;
@@ -67,7 +63,7 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 		
 		//Título y botón de arriba
 		JLabel titulo = new JLabel("Mis rutinas");
-		titulo.setFont(new Font("SansSerrig", Font.BOLD, 22));
+		titulo.setFont(new Font("SansSerif", Font.BOLD, 22));
 		titulo.setForeground(Tema.TEXTO);
 		
 		JButton botonNueva = new JButton("+ Nueva rutina");
@@ -100,9 +96,12 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 		areaDetalle.setEditable(false);
 		areaDetalle.setBackground(Tema.TARJETA);
 		areaDetalle.setForeground(Tema.TEXTO);
-		areaDetalle.setFont(new Font("SansSerif", Font.PLAIN, 148));
+		areaDetalle.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		JScrollPane scrollDetalle = new JScrollPane(areaDetalle);
+		
+		
 		scrollDetalle.setBorder(BorderFactory.createTitledBorder("Detalle de la rutina seleccionada"));
+		
 		scrollDetalle.setOpaque(false);
 		
 		add(encabezado, BorderLayout.NORTH);
@@ -167,6 +166,7 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 		
 		if(NUEVA_RUTINA.equals(e.getActionCommand())) {
 			DialogoNuevaRutina dialogo = new DialogoNuevaRutina(SwingUtilities.getWindowAncestor(this), usuario, rutinaService, ejercicioService);
+			dialogo.setVisible(true); //ventana modal
 			actualizar();
 		}
 		
@@ -217,7 +217,7 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 			case 0:
 				return r.getNombre();
 			case 1:
-				return r.getDiaSemana();
+				return r.getDiaSemana().getEtiqueta();
 			default: return rutinaService.obtenerEjercicios(r).size();
 				
 				}
