@@ -165,7 +165,7 @@ public class RecordService {
 		return set.getEjercicio().getCodigo().equals(ejercicio.getCodigo());
 	}
 	//===========La semana de entreno va de lunes a domingo, devuelve el inicio de la semana (lunes) de la fecha ingresada ===============//
-	private LocalDate inicioSemana(LocalDate fecha) {
+	public LocalDate inicioSemana(LocalDate fecha) { // El panel progreso lo necesita ver
 		return fecha.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)); // previosaOrSame devuelve el lunes de esa semana ( si se ingresa la fecha del lunes, deja esa fecha)
 	}
 	//=======Calcula si la fecha esta dentro del rango, incluye los extremos==========/////////////

@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import com.gymtracker.algorithms.OrdenarPorInsercion;
 import com.gymtracker.exceptions.GymTrackerException;
 import com.gymtracker.exceptions.PilaVaciaException;
 import com.gymtracker.model.EstadoSesion;
@@ -36,6 +37,7 @@ import com.gymtracker.model.Usuario;
 import com.gymtracker.service.RecordService;
 import com.gymtracker.service.RutinaService;
 import com.gymtracker.service.SesionService;
+import com.gymtracker.structures.TablaHash;
 
 public class PanelEntrenar extends PanelPestana implements ActionListener{
 
@@ -50,11 +52,11 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 	private static final String DESHACER = "DESHACER";
 	private static final String FINALIZAR = "FINALIZAR";
 	
-	//Nombres de las cartas //? Que son las cartas?
-	private static final String VISTA_PREVIA = "VISTA_PREVIA"; //El _ es necesario?
-	private static final String ENTRENAR = "ENTRENAR";
-	private static final String MEDIDAS_PESO = "MEDIDAS_PESO";
-	private static final String MEDIDAS_TIEMPO = "MEDIDAS_TIEMPO";
+	//Nombres de las cartas (Componentes del cardLayout, solo se muestra una)
+	private static final String VISTA_PREVIA = "VISTA PREVIA"; // Solo visible mientras no hay sesion activaEl _ es necesario?
+	private static final String ENTRENAR = "ENTRENAR"; //Solo es visible mientras se entrena
+	private static final String MEDIDAS_PESO = "MEDIDAS_PESO"; //Solo para ejercicios de peso
+	private static final String MEDIDAS_TIEMPO = "MEDIDAS_TIEMPO"; //Solo para ejercicios que se miden por tiempo
 	
 	private static final int ANCHO_CAMPO_CORTO = 120;
 	
@@ -103,10 +105,13 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 		listaEjercicios.setLayout(new BoxLayout(listaEjercicios, BoxLayout.Y_AXIS));
 		listaEjercicios.setOpaque(false);
 		listaEjercicios.setAlignmentX(Component.LEFT_ALIGNMENT);
-		botonIniciar =Tema.crearBotonPrimario("Iniciar sesion de entrenamiento", INICIAR, this);
+		botonIniciar =Tema.crearBotonPrimario("Iniciar sesión de entrenamiento", INICIAR, this);
 		
-		JPanel columnaVPrevia= crearColumna("Vista previa del entreno de hoy");
+		JPanel columnaVPrevia= crearColumna("Vista previa de tu entreno de hoy");
 		columnaVPrevia.add(Tema.crearEtiqueta("Rutina de hoy"));
+		////Espacio invisible de tamanio fijo (Rigido), ocupa(ancho, alto)
+		/// Para un BoxLayout vertical solo cuenta el alto
+		/// Separa componentes de la columna
 		columnaVPrevia.add(Box.createRigidArea(new Dimension(0,6)));
 		columnaVPrevia.add(valorRutinaHoy);
 		columnaVPrevia.add(Box.createRigidArea(new Dimension(0,14))); //? que es rigid area
@@ -139,7 +144,7 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 		panelMedidas.setOpaque(false);
 		panelMedidas.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panelMedidas.add(crearFilaDeCampos(crearCampoConEtiqueta("Peso (kg) ", campoPeso), crearCampoConEtiqueta("Repeticiones", campoRepeticiones)), MEDIDAS_PESO);
-		panelMedidas.add(crearCampoConEtiqueta("Duracion (seg) ", campoDuracion), MEDIDAS_TIEMPO);
+		panelMedidas.add(crearCampoConEtiqueta("Duración (seg) ", campoDuracion), MEDIDAS_TIEMPO);
 		
 		JPanel columnaSerie = crearColumna("Set pendiente");
 		columnaSerie.add(valorEjercicio);
@@ -159,7 +164,7 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 		
 		botonRegistrar = Tema.crearBotonPrimario("Registrar set ",REGISTRAR, this);
 		botonDeshacer = crearBotonSecundario("Deshacer ultimo set ", DESHACER);
-		botonFinalizar = crearBotonSecundario("Finalizar serie", FINALIZAR);
+		botonFinalizar = crearBotonSecundario("Finalizar entreno", FINALIZAR);
 		
 		JPanel entrenando=new JPanel();
 		entrenando.setLayout(new BoxLayout(entrenando, BoxLayout.Y_AXIS));
@@ -199,7 +204,7 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 		contenido.add(tarjeta);
 		
 		JScrollPane scroll = new JScrollPane(contenido);
-		contenido.setBorder(null);
+		scroll.setBorder(null);
 		scroll.getViewport().setBackground(Tema.FONDO);
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
 		
@@ -232,16 +237,17 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 		//Retorna true si la sesion del usuario esta activa
 		return activa!= null && activa.getEstado() == EstadoSesion.EN_CURSO && activa.getUsuario().equals(usuario);
 	}
-	
+	/**Pantalla que se ve cuando no se esta entrenando*/
 	private void mostrarVistaPrevia() {//?
-		listaEjercicios.removeAll();
+		listaEjercicios.removeAll();//Evita que se acumulen duplicados
 		boolean puedeIniciar =false;
 		
-		//Optional porque puede no haber rutina para hoy
+		//Se consulta en el service que rutina toca hoy
+		//Optional porque puede no haber rutina para el dia
 		Optional<Rutina> rutinaHoy = sesionService.buscarRutinaDelDia(usuario, LocalDate.now());
 		if(rutinaHoy.isEmpty()) {
-			valorRutinaHoy.setText("Hoy es dia de descanso, no hay rutina");
-			listaEjercicios.add(crearTextoSuave("No tienes una rutina para hoy"));
+			valorRutinaHoy.setText("Hoy es día de descanso, no hay rutina");
+			listaEjercicios.add(crearTextoSuave("No tienes ejercicios ni rutina para hoy"));
 		}
 		else {
 			Rutina rutina = rutinaHoy.get();
@@ -253,14 +259,15 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 				
 			}
 			else {
-				puedeIniciar=true;
-				for(RutinaEjercicio RutE : ejercicios) {
-					listaEjercicios.add(crearTextoNormal(describirEjercicio(RutE)));
+				puedeIniciar=true; //Solo se puede iniciar un entreno si hay una rutina con ejercicios
+				for(RutinaEjercicio rutE : ejercicios) {
+					listaEjercicios.add(crearTextoNormal(describirEjercicio(rutE)));//Por cada ejercicio lo describe y deja un espacio de 4px
 					listaEjercicios.add(Box.createRigidArea(new Dimension(0,4)));
 				}
 			}
 		}
 		botonIniciar.setEnabled(puedeIniciar); //el boton no se habilita sin rutinas o ejercicios
+		//Se recalcula el layout y su orden, ademas se repinta,  cuando se cambian los componentes
 		listaEjercicios.revalidate();
 		listaEjercicios.repaint();
 	}
@@ -270,7 +277,7 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 			SetPlaneado set= sesionService.verSetPendiente(); //Mira el tope(cabeza) de la cola de sets
 			TipoEjercicio tipo = set.getEjercicio().getTipo();
 			valorEjercicio.setText(set.getEjercicio().getNombre());
-			valorDetalleSerie.setText("Set " + set.getNumeroSet() + " , repeticiones objetivo: " + formatearRepsObjetivo(tipo, set.getObjetivo()));
+			valorDetalleSerie.setText("Set " + set.getNumeroSet() + " , objetivo: " + formatearRepsObjetivo(tipo, set.getObjetivo()));
 		
 			cartasMedidas.show(panelMedidas,  tipo == TipoEjercicio.PESO ? MEDIDAS_PESO : MEDIDAS_TIEMPO);
 			botonRegistrar.setEnabled(true);
@@ -283,9 +290,12 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 	}
 	
 	
-	////////////============Eventos=====================///////////////// //? que son los eventos
+	////////////============Eventos =====================///////////////// //
+	//Son acciones que realiza el usuario en la interfaz, los generan los botones
+	//Responde el panel ya que implementa actionListener
+	//Al crear un boton, se le anade el actionListener(panel)
 	@Override
-	public void actionPerformed(ActionEvent e) {//? que hace, que es
+	public void actionPerformed(ActionEvent e) {//Metodo que swing llama cuando se presiona un boton
 		
 		switch(e.getActionCommand()) {
 		// case X-> accion a ejecutar 
@@ -331,7 +341,7 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 			JOptionPane.showMessageDialog(this,  "Revisa los datos: el peso puede tener decimales (ej. 52.5); repeticiones, duración, RPE y RIR son números enteros.", "Datos invalidos", JOptionPane.WARNING_MESSAGE);
 		}
 		catch(GymTrackerException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(), "No se pudo registrar bel set", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(), "No se pudo registrar el set", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -343,7 +353,7 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 		}
 		catch(PilaVaciaException e) {
 			//En caso de que se pulsara deshacer sin haber registrado ningun set
-			JOptionPane.showMessageDialog(this, "Todavia no se ha registrado ningun set en este entreno", "Nada que deshacer", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Todavía no se ha registrado ningun set en este entreno", "Nada que deshacer", JOptionPane.INFORMATION_MESSAGE);
 		} 
 		catch (GymTrackerException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "No se pudo deshacer", JOptionPane.ERROR_MESSAGE );
@@ -352,7 +362,7 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 	private void finalizar() {
 		// AVANZADO: showConfirmDialog devuelve QUÉ botón se presionó. El tipo de diálogo (YES_NO_OPTION)
 				// va como argumento; el resultado se compara con YES_OPTION.
-		int respuesta = JOptionPane.showConfirmDialog(this, "Quieres finalizar el entrenamiento?", "Finalizar", JOptionPane.YES_NO_OPTION);
+		int respuesta = JOptionPane.showConfirmDialog(this,"¿Quieres finalizar el entrenamiento?", "Finalizar", JOptionPane.YES_NO_OPTION);
 		if(respuesta!= JOptionPane.YES_OPTION) {
 			return;
 		}
@@ -371,7 +381,17 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 	/** Al terminar el entreno, mmustra cuantos sets lleva la semana en cada grupo muscular
 	 * Esto se calcula en record Service*/
 	private void mostrarResumenSemanal(LocalDate fecha ) {
-		
+		TablaHash<String, Integer> volumen = recordService.calcularVolumenSemanalTotal(usuario, fecha);
+		List<String> gruposM = volumen.listarClaves();
+		OrdenarPorInsercion.ordenar(gruposM, String.CASE_INSENSITIVE_ORDER);
+		StringBuilder mensaje = new StringBuilder("Entrenamiento finalizado. \n\n Sets de esta semana por grupo muscular");
+		if(gruposM.isEmpty()) {
+			mensaje.append("Esta semana no has registrado entrenos");
+		}
+		for(String grupo : gruposM) {
+			mensaje.append("\n- ").append(grupo).append(": ").append(volumen.buscarValor(grupo)).append("sets");
+		}
+		JOptionPane.showMessageDialog(this, mensaje.toString(), "Resumen semanal", JOptionPane.INFORMATION_MESSAGE);
 	}
 	private void limpiarCampos() {
 		campoPeso.setText("");
@@ -389,7 +409,7 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 	}
 	
 	private String formatearRepsObjetivo (TipoEjercicio tipo, int objetivo) {
-		return tipo == TipoEjercicio.PESO ? objetivo + " reps " : objetivo + "seg";
+		return tipo == TipoEjercicio.PESO ? objetivo + " reps " : objetivo + " seg";
 	}
 	
 	///////////////=== Metodos auxiliares para la presentacion y la estetica =========///////////////
@@ -442,16 +462,16 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 			return fila;
 		}
 		/**Crear un boton con un color secundario teniendo en cuenta el tema*/
-		private JButton crearBotonSecundario(String texto, String comando) { //explain all
+		private JButton crearBotonSecundario(String texto, String comando) { //texto: texto visible, comando : comando que lo identifica
 			JButton boton = new JButton(texto);
-			boton.setActionCommand(comando);
+			boton.setActionCommand(comando); //Identificador que lee actionPerformed
 			boton.addActionListener(this);
 			boton.setBackground(Tema.BOTON_SECUNDARIO);
-			boton.setForeground(Tema.TEXTO);
-			boton.setOpaque(true);//Porque true?
+			boton.setForeground(Tema.TEXTO);//Color del texto
+			boton.setOpaque(true);//Se ve el color gris
 			boton.setFocusPainted(false);
 			boton.setFont(new Font ("SansSerif", Font.BOLD, 14));
-			boton.setPreferredSize(new Dimension(230, 42));
+			boton.setPreferredSize(new Dimension(230, 42));//Tamanio que el layout intenta respetar
 			return boton;
 		}
 		/**Crea una etiqueta para mostrar un dato*/
@@ -463,14 +483,14 @@ public class PanelEntrenar extends PanelPestana implements ActionListener{
 			return valor;
 		}
 		
-		private JLabel crearTextoNormal(String texto) { //?why this method
+		private JLabel crearTextoNormal(String texto) { //Muestra el texto blanco, datos reales
 			JLabel etiqueta = new JLabel(texto);
 			etiqueta.setFont(new Font("SansSerif", Font.PLAIN, 14));
 			etiqueta.setForeground(Tema.TEXTO);
 			etiqueta.setAlignmentX(Component.LEFT_ALIGNMENT);
 			return etiqueta;
 		}
-		private JLabel crearTextoSuave(String texto) { //?why this method
+		private JLabel crearTextoSuave(String texto) { //Muestra texto en gris claro (textos secundarios)
 			JLabel etiqueta = new JLabel(texto);
 			etiqueta.setFont(new Font("SansSerif", Font.PLAIN, 14));
 			etiqueta.setForeground(Tema.TEXTO_SUAVE);

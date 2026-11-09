@@ -2,14 +2,12 @@ package com.gymtracker.model;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.gymtracker.exceptions.EdadEstaturaInvalidaException;
-
 import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
 class UsuarioTest {

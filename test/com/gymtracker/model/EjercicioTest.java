@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.gymtracker.exceptions.CategoriaInvalidaException;
-
 import com.gymtracker.exceptions.GrupoMuscularInvalidoException;
 import com.gymtracker.exceptions.NombreNullException;
 
