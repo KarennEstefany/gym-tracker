@@ -3,7 +3,6 @@ package com.gymtracker.model;
 import java.io.Serializable;
 
 import com.gymtracker.exceptions.NumeroSetInvalidoException;
-
 import com.gymtracker.exceptions.ObjetoNuloException;
 import com.gymtracker.exceptions.OrdenInvalidoException;
 

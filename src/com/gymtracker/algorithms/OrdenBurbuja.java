@@ -3,8 +3,6 @@ package com.gymtracker.algorithms;
 import java.util.Comparator;
 import java.util.List;
 
-import com.gymtracker.model.Ejercicio;
-
 public class OrdenBurbuja {
 	
 	public static <T> void ordenar(List<T> lista, Comparator <? super T> comparador ) {
