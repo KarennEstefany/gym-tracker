@@ -151,4 +151,36 @@ public class EjercicioService {
     	OrdenarPorInsercion.ordenar(ejerciciosLista, criterio);
     	return ejerciciosLista;
     }
+    
+    
+    public List<String> listarGruposMusculares(){
+    	
+    	List<String> grupos = new ArrayList<String>();
+    		
+    		for (Ejercicio e: listaEjercicios) {
+    			
+    			if(!grupos.contains(e.getGrupoMuscular())) {
+    				
+    				grupos.add(e.getGrupoMuscular());
+    			}
+    		}
+    		
+    	return grupos;
+    	
+    }
+    
+    
+    public List<String> listarCategorias(){
+    	
+    	List<String> categorias = new ArrayList<String>();
+    	for(Ejercicio e: listaEjercicios) {
+    		
+    		if(!categorias.contains(e.getCategoria())) {
+    			
+    			categorias.add(e.getCategoria());
+    		}
+    		
+    	}
+    	return categorias;
+    }
 }
