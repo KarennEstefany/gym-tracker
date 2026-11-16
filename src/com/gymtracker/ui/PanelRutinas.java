@@ -2,7 +2,8 @@ package com.gymtracker.ui;
 
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -39,6 +41,7 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 	
 	
 	public static final String NUEVA_RUTINA = "NUEVA_RUTINA";
+	private static final String EDITAR_RUTINA = "EDITAR_RUTINA";
 	
 	private final Usuario usuario;
 	private final RutinaService rutinaService;
@@ -70,12 +73,19 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 		botonNueva.setActionCommand(NUEVA_RUTINA);
 		botonNueva.addActionListener(this);
 		
+		JButton botonEditar = new JButton("Editar rutina");
+		botonEditar.setActionCommand(EDITAR_RUTINA);
+		botonEditar.addActionListener(this);
 		
 		JPanel encabezado = new JPanel(new BorderLayout());
 		encabezado.setOpaque(false);
 		encabezado.add(titulo, BorderLayout.WEST);
-		encabezado.add(botonNueva, BorderLayout.EAST);
 		
+		JPanel botonesEncabezado = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+		botonesEncabezado.setOpaque(false);
+		botonesEncabezado.add(botonEditar);
+		botonesEncabezado.add(botonNueva);
+		encabezado.add(botonesEncabezado, BorderLayout.EAST);
 		
 		//Centro tabla 
 		modelo = new ModeloRutinas();
@@ -164,11 +174,30 @@ public class PanelRutinas extends PanelPestana implements ActionListener, ListSe
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(NUEVA_RUTINA.equals(e.getActionCommand())) {
+		
+		String comando = e.getActionCommand();
+		if(NUEVA_RUTINA.equals(comando)) {
 			DialogoNuevaRutina dialogo = new DialogoNuevaRutina(SwingUtilities.getWindowAncestor(this), usuario, rutinaService, ejercicioService);
 			dialogo.setVisible(true); //ventana modal
 			actualizar();
+		} else if(EDITAR_RUTINA.equals(comando)) {
+			
+			int fila = tabla.getSelectedRow();
+			if(fila <0) {
+				
+				JOptionPane.showMessageDialog(this, "Selecciona una rutina de la tabla para editarla.");
+				return;
+			}
+			
+			DialogoEditarRutina dialogo = new DialogoEditarRutina(
+					
+					SwingUtilities.getWindowAncestor(this), modelo.getRutina(fila), rutinaService, ejercicioService);
+			dialogo.setVisible(true);
+			actualizar();
+					
+			
 		}
+		
 		
 	}
 	
