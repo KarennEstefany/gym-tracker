@@ -6,11 +6,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
+import com.gymtracker.exceptions.ContrasenaInvalidaException;
+import com.gymtracker.exceptions.DocumentoInvalidoException;
 import com.gymtracker.exceptions.EdadEstaturaInvalidaException;
 import com.gymtracker.exceptions.NombreNullException;
 import com.gymtracker.exceptions.ObjetivoInvalidoException;
-import com.gymtracker.exceptions.ContrasenaInvalidaException;
-import com.gymtracker.exceptions.DocumentoInvalidoException;
 public class Usuario implements Serializable {
 	/**
 	 * 

@@ -1,7 +1,6 @@
 package com.gymtracker.model;
 
 import com.gymtracker.exceptions.PesoInvalidoException;
-
 import com.gymtracker.exceptions.RepeticionesInvalidasException;
 
 public class SetPeso extends SetRegistro{

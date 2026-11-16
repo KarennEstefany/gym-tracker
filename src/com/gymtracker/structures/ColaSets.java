@@ -2,7 +2,6 @@ package com.gymtracker.structures;
 
 
 import com.gymtracker.exceptions.EstructuraVaciaException;
-import com.gymtracker.exceptions.ObjetoNuloException;
 
 
 public class ColaSets<T> {

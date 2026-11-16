@@ -1,7 +1,6 @@
 package com.gymtracker.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import com.gymtracker.exceptions.DuracionInvalidaException;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -16,30 +15,30 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.gymtracker.exceptions.DuracionInvalidaException;
 import com.gymtracker.exceptions.EjercicioInvalidoException;
 import com.gymtracker.exceptions.EstructuraVaciaException;
 import com.gymtracker.exceptions.FechaInvalidaException;
 import com.gymtracker.exceptions.GymTrackerException;
+import com.gymtracker.exceptions.PilaVaciaException;
 import com.gymtracker.exceptions.RutinaInvalidaException;
 import com.gymtracker.exceptions.SesionEnCursoException;
 import com.gymtracker.exceptions.SesionYaFinalizadaException;
 import com.gymtracker.exceptions.SinRutinaParaHoyException;
 import com.gymtracker.exceptions.SinSesionActivaException;
 import com.gymtracker.exceptions.UsuarioInvalidoException;
-import com.gymtracker.exceptions.PilaVaciaException;
 import com.gymtracker.model.DiaSemana;
 import com.gymtracker.model.Ejercicio;
 import com.gymtracker.model.EstadoSesion;
 import com.gymtracker.model.Objetivo;
-import com.gymtracker.model.TipoEjercicio;
-import com.gymtracker.model.Usuario;
 import com.gymtracker.model.Rutina;
 import com.gymtracker.model.SesionEntrenamiento;
 import com.gymtracker.model.SetPeso;
 import com.gymtracker.model.SetPlaneado;
 import com.gymtracker.model.SetRegistro;
 import com.gymtracker.model.SetTiempo;
-import com.gymtracker.exceptions.SinSesionActivaException;
+import com.gymtracker.model.TipoEjercicio;
+import com.gymtracker.model.Usuario;
 
 public class SesionServiceTest {
 	

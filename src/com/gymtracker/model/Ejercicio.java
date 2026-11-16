@@ -106,7 +106,10 @@ public class Ejercicio implements Serializable {
 	
 	@Override
 	public String toString() {
+
 		return  nombre + "(" + grupoMuscular + ")" ;
+
+		
 	}
 	public TipoEjercicio verificarTipo(TipoEjercicio tipo) {
 		if(tipo==null) {

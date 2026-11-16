@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -63,11 +65,25 @@ public class VentanaLogin extends JFrame {
 		contenedor.add(panelIngreso, INGRESO);
 		contenedor.add(panelRegistro, REGISTRO);
 		
+		ImageIcon logo = new ImageIcon("data/imagenLogo2.jpg");
+		Image imagenEscalada = logo.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+		ImageIcon logoFinal = new ImageIcon(imagenEscalada);
+		JLabel labelImagen = new JLabel(logoFinal);
+		labelImagen.setHorizontalAlignment(JLabel.CENTER);
+		labelImagen.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
+		
+		
+		//Panel para organizar la imagen y las cartas del login/registro
+		JPanel intermedio = new JPanel(new BorderLayout());
+		intermedio.setBackground(Tema.FONDO);
+		intermedio.add(labelImagen, BorderLayout.NORTH);
+		intermedio.add(contenedor, BorderLayout.CENTER);
+		
 		getContentPane().setBackground(Tema.FONDO);
 		setLayout(new BorderLayout());
 		add(crearEncabezado(), BorderLayout.NORTH);
-		add(contenedor, BorderLayout.CENTER);
-	
+		add(intermedio, BorderLayout.CENTER);
+		
 	
 		setSize(900,780);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -98,6 +114,7 @@ public class VentanaLogin extends JFrame {
 		
 		encabezado.add(logo, BorderLayout.WEST);
 		encabezado.add(etiqueta, BorderLayout.EAST);
+		
 		return encabezado;
 	}
 

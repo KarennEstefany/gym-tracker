@@ -261,7 +261,7 @@ public class PanelUsuario extends PanelPestana implements ActionListener {
 		return columna;
 	}
 	
-	private void agregarCampo (JPanel columna, String texto, Component campo, String textoAyuda) {//? que es ayuda
+	private void agregarCampo (JPanel columna, String texto, Component campo, String textoAyuda) {
 		columna.add(Tema.crearEtiqueta(texto));
 		columna.add(Box.createRigidArea(new Dimension(0,6)));
 		columna.add(campo);
