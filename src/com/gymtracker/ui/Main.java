@@ -23,6 +23,8 @@ public class Main {
 	
 		//Se carga lo que está guardado o datos vacíos si es la primera vez 
 		
+		
+		
 		final DatosApp datos;
 		try {
 			datos = Persistencia.cargar(RUTA_DATOS);

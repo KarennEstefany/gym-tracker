@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 
 public class Tema {
@@ -37,6 +38,44 @@ public class Tema {
 	private Tema() {
 		
 	}
+	
+	public static void aplicarGlobal() {
+		
+		UIManager.put("Panel.background", TARJETA);
+		UIManager.put("OptionPane.background", TARJETA);
+		UIManager.put("OptionPane.messageForeground", TEXTO);
+		UIManager.put("Label.foreground", TEXTO);
+		                                                                                                                                                                                                                                                                                                                                                     
+		
+		UIManager.put("Button.backgroun", BOTON_PRIMARIO);
+		UIManager.put("Button.foreground", TEXTO);
+		
+		UIManager.put("TextField.bacground", CAMPO);
+		UIManager.put("TextField.foreground", TEXTO);
+		UIManager.put("TextField.caretForeground", TEXTO);
+		UIManager.put("PasswordField.background", CAMPO);
+		UIManager.put("PasswordField.forecground",TEXTO);
+		UIManager.put("PasswordField.caretForeground", TEXTO);
+		
+		UIManager.put("ComboBox.background", CAMPO);
+		UIManager.put("ComboBox.foreground", TEXTO);
+		UIManager.put("ComboBox.selectionBackground", BOTON_PRIMARIO);
+		UIManager.put("List.background", CAMPO);
+		UIManager.put("List.foreground", TEXTO);
+		
+		UIManager.put("Table.background", CAMPO);
+		UIManager.put("Table.foreground", TEXTO);
+		UIManager.put("TableHeader.background", TARJETA);
+		UIManager.put("TableHeader.foreground", TEXTO);
+		UIManager.put("TabbedPane.background", TARJETA);
+		UIManager.put("TabbedPane.foreground", TEXTO);
+		
+		
+		
+		
+		
+		
+		}
 	
 	public static void estilizarCampo(JTextField campo) {
 		campo.setBackground(CAMPO);

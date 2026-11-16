@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -526,6 +527,42 @@ class EjercicioServiceTest {
     	
     	servicio.registrarEjercicio("PLAN-01", "Plancha", "Abdomen", "Core", TipoEjercicio.TIEMPO);
     	assertEquals(2, listaInicial.size());
+    }
+    
+    
+    @Test
+    void listarGruposMusculares_SinRepetidos(){
+    	
+    	Ejercicio e1 = new Ejercicio(1, "SENT-01", "SENTADILLA", "CUADRICEPS", "PIERNAS",TipoEjercicio.PESO);
+    	
+    	Ejercicio e2 = new Ejercicio(2, "SENT-02", "SENTADILLA BULGARA", "CUADRICEPS", "PIERNAS",TipoEjercicio.PESO);
+    	Ejercicio e3 = new Ejercicio(3, "SENT-03", "SENTADILLA BULGARA 2", "CUADRICEPS 2", "PIERNAS",TipoEjercicio.PESO);
+    	List<Ejercicio> ejercicios = new ArrayList<Ejercicio>();
+    	
+    	ejercicios.add(e1);
+    	ejercicios.add(e2);
+    	ejercicios.add(e3);    	
+    	
+    	EjercicioService servicio = new EjercicioService(ejercicios);
+    	List<String> grupos = servicio.listarGruposMusculares();
+    	
+    	assertAll(
+    			
+    			()-> assertEquals(2, grupos.size()),
+    			()-> assertTrue(grupos.contains("CUADRICEPS")),
+    			()-> assertTrue(grupos.contains("CUADRICEPS 2"))
+    	
+    			);
+    	
+    	
+    }
+    
+    @Test
+    void listarGruposMusculares_servicioVacio() {
+    	
+    	EjercicioService servicio = new EjercicioService(new ArrayList<Ejercicio>());
+    	
+    	assertTrue(servicio.listarGruposMusculares().isEmpty());
     }
     
     
