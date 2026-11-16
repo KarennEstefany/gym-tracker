@@ -31,7 +31,7 @@ import com.gymtracker.service.EjercicioService;
 import com.gymtracker.service.ItemRutina;
 import com.gymtracker.service.RutinaService;
 
-public class DialogoNuevaRutina extends JDialog implements ActionListener {
+public class DialogoNuevaRutina extends JDialog implements ActionListener, OyenteEjercicioElegido {
 	
 	
 	/**
@@ -39,13 +39,12 @@ public class DialogoNuevaRutina extends JDialog implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private static final String AGREGAR ="AGREGAR";
-private static final String QUITAR = "QUITAR";
-	private static final String GUARDAR = "GUARDAR";
 	
+	private static final String QUITAR = "QUITAR";
+	private static final String GUARDAR = "GUARDAR";
 	private static final String CANCELAR = "CANCELAR";
 	
-	private static final String CAMBIO_EJERCICIO = "CAMBIO_EJERCICIO";
+	
 	
 	private final Usuario usuario;
 	private final RutinaService rutinaService;
@@ -53,10 +52,14 @@ private static final String QUITAR = "QUITAR";
 	
 	private final JTextField campoNombre;
 	private final JComboBox<DiaSemana> comboDia;
+	
+	/**
 	private final JComboBox<Ejercicio> comboEjercicio;
 	private final JTextField campoSets;
 	private final JTextField campoObjetivo;
 	private final JLabel etiquetaObjetivo;
+	*/
+	
 	private final JList<String> listaVisible;
 	
 	
@@ -81,6 +84,7 @@ private static final String QUITAR = "QUITAR";
 		comboDia = new JComboBox<DiaSemana>(DiaSemana.values());
 		comboDia.setRenderer(new DefaultListCellRenderer() {
 			private static final long serialVersionUID =1L;
+			
 			@Override 
 			public Component getListCellRendererComponent(JList<?> lista, Object valor, int indice, boolean seleccionado, boolean foco) {
 				
@@ -94,6 +98,7 @@ private static final String QUITAR = "QUITAR";
 		});
 		
 
+		/*
 	comboEjercicio = new JComboBox<Ejercicio>(
 			
 			new DefaultComboBoxModel<Ejercicio>(
@@ -107,7 +112,7 @@ private static final String QUITAR = "QUITAR";
 	etiquetaObjetivo = new JLabel("Objetivo:");
 	actualizarEtiquetaObjetivo();
 	
-		
+		**/
 	listaVisible = new JList<String>(modeloLista);
 	
 	//Datos de la rutina 
@@ -117,7 +122,15 @@ private static final String QUITAR = "QUITAR";
 	datos.add(new JLabel("Día:"));
 	datos.add(comboDia);
 	
-	//fila para agregar un ejercicio
+	
+	//Seleccion de ejercicio, el panel reutilizable con este dialogo como oyente
+	
+	PanelSeleccionEjercicio seleccion = new PanelSeleccionEjercicio(ejercicioService, this);
+	
+	
+	/*
+	
+	fila para agregar un ejercicio
 	JPanel agregar = new JPanel(new FlowLayout(FlowLayout.LEFT,8,4));
 	agregar.add(comboEjercicio);
 	agregar.add(new JLabel("Sets:"));
@@ -125,9 +138,9 @@ private static final String QUITAR = "QUITAR";
 	agregar.add(etiquetaObjetivo);
 	agregar.add(campoObjetivo);
 	agregar.add(crearBoton("Agregar", AGREGAR));
-	
+	**/
 	JPanel centro = new JPanel(new BorderLayout(0,6));
-	centro.add(agregar, BorderLayout.NORTH);
+	centro.add(seleccion, BorderLayout.NORTH);
 	centro.add(new JScrollPane(listaVisible), BorderLayout.CENTER);
 	centro.add(crearBoton("Quitar seleccionado", QUITAR), BorderLayout.SOUTH);
 	
@@ -142,7 +155,7 @@ private static final String QUITAR = "QUITAR";
 	contenido.add(botones, BorderLayout.SOUTH);
 	
 	setContentPane(contenido);
-	setSize(640, 480);
+	setSize(660, 500);
 	setLocationRelativeTo(propietario);
 	
 	
@@ -158,6 +171,8 @@ private static final String QUITAR = "QUITAR";
 		return boton;
 	}
 	
+	
+	/*
 	private void actualizarEtiquetaObjetivo() {
 		
 		Ejercicio e = (Ejercicio) comboEjercicio.getSelectedItem();
@@ -170,17 +185,13 @@ private static final String QUITAR = "QUITAR";
 		}
 		
 	}
+	*/
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand();
-		if(CAMBIO_EJERCICIO.equals(comando)) {
-			actualizarEtiquetaObjetivo();
-		} else if(AGREGAR.equals(comando)) {
-			
-			agregarEjercicio();
-		} else if(QUITAR.equals(comando)) {
+		if(QUITAR.equals(comando)) {
 			
 			quitarSeleccionado();
 		} else if(GUARDAR.equals(comando)) {
@@ -192,6 +203,9 @@ private static final String QUITAR = "QUITAR";
 		}
 		
 	}
+	
+	
+	/*
 	
 	private void agregarEjercicio(){
 		
@@ -220,7 +234,21 @@ private static final String QUITAR = "QUITAR";
 			JOptionPane.showMessageDialog(this, ex.getMessage(), "Dato inválido",JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	*/
 	
+	@Override
+	public void ejercicioElegido(ItemRutina item) {
+		
+		items.add(item);
+		modeloLista.addElement(describir(items.size(), item));
+		
+	}
+	
+	private String describir(int numero, ItemRutina item) {
+		
+		return ". " + item.getEjercicio().getNombre() + " - " + item.getSets() + " sets x " + item.getObjetivo() + " " + item.getEjercicio().getUnidadObjetivo();
+		
+	}
 	
 	private void quitarSeleccionado() {
 		
@@ -233,7 +261,7 @@ private static final String QUITAR = "QUITAR";
 		int numero =1;
 		for(ItemRutina item: items) {
 			
-			modeloLista.addElement(numero + ". " + item.getEjercicio().getNombre()+ "-" + item.getSets() + " sets x" + item.getObjetivo() + " " + item.getEjercicio().getUnidadObjetivo());
+			modeloLista.addElement(describir(numero, item));
 			
 			numero++;
 		}
@@ -253,4 +281,7 @@ private static final String QUITAR = "QUITAR";
 			JOptionPane.showMessageDialog(this, ex.getMessage(), "No se pudo guardar la rutina", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
+
+
 }
