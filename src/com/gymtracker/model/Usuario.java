@@ -87,7 +87,7 @@ public class Usuario implements Serializable {
 	}
 	public void setEstatura(double estatura) {
 		if (estatura<=0.49 || estatura >2.30) {
-			throw new EdadEstaturaInvalidaException("La estatura debe estar entre 50 y 2.30m");
+			throw new EdadEstaturaInvalidaException("La estatura debe estar entre 0.50 y 2.30m");
 		}
 		this.estatura = estatura;
 	}

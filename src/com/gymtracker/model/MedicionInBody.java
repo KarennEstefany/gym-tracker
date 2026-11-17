@@ -3,6 +3,8 @@ package com.gymtracker.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.gymtracker.exceptions.MedicionInvalidaException;
+
 /**
  * 
  */
@@ -34,14 +36,20 @@ public class MedicionInBody implements Serializable{
 	 */
 	public MedicionInBody(int id, Usuario usuario, LocalDate fecha, double peso, double porcentajeGrasa, double masaMuscular,
 			double aguaCorporal, double imc) {
-		super();
+		
+		if(usuario == null) {
+			
+			throw new MedicionInvalidaException("La medición debe tener un usuario ");
+			
+		}
+		
 		this.id = id;
 		this.usuario = usuario;
-		this.fecha = fecha;
-		this.peso = peso;
-		this.porcentajeGrasa = porcentajeGrasa;
-		this.masaMuscular = masaMuscular;
-		this.aguaCorporal = aguaCorporal;
+		setFecha(fecha);
+		setPeso(peso);
+		setPorcentajeGrasa(porcentajeGrasa);
+		setMasaMuscular(masaMuscular);
+		setAguaCorporal(aguaCorporal);
 		this.imc = imc;
 	}
 
@@ -56,6 +64,17 @@ public class MedicionInBody implements Serializable{
 	 * @param fecha the fecha to set
 	 */
 	public void setFecha(LocalDate fecha) {
+		if(fecha == null) {
+			
+			throw new MedicionInvalidaException("La fecha no puede ser nula");
+		}	
+		
+		if (fecha.isAfter(LocalDate.now())) {
+			
+			
+			throw new MedicionInvalidaException("La fecha no puede ser futura");
+		}
+			
 		this.fecha = fecha;
 	}
 
@@ -70,6 +89,10 @@ public class MedicionInBody implements Serializable{
 	 * @param peso the peso to set
 	 */
 	public void setPeso(double peso) {
+	if(peso <= 0) {
+				
+				throw new MedicionInvalidaException("El peso no puede ser menor a cero");
+	}
 		this.peso = peso;
 	}
 
@@ -84,6 +107,11 @@ public class MedicionInBody implements Serializable{
 	 * @param porcentajeGrasa the porcentajeGrasa to set
 	 */
 	public void setPorcentajeGrasa(double porcentajeGrasa) {
+		
+	if(porcentajeGrasa < 0 || porcentajeGrasa > 100) {
+				
+				throw new MedicionInvalidaException("El porcentaje de grase debe estar entre 0 y 100, porcentaje: " + porcentajeGrasa);
+		}
 		this.porcentajeGrasa = porcentajeGrasa;
 	}
 
@@ -98,6 +126,11 @@ public class MedicionInBody implements Serializable{
 	 * @param masaMuscular the masaMuscular to set
 	 */
 	public void setMasaMuscular(double masaMuscular) {
+	
+	if(masaMuscular <= 0) {
+				
+				throw new MedicionInvalidaException("La masa muscular debe ser mayor que 0");
+	}
 		this.masaMuscular = masaMuscular;
 	}
 
@@ -112,6 +145,11 @@ public class MedicionInBody implements Serializable{
 	 * @param aguaCorporal the aguaCorporal to set
 	 */
 	public void setAguaCorporal(double aguaCorporal) {
+		
+	if(aguaCorporal <= 0) {
+				
+				throw new MedicionInvalidaException("La cantidad de agua corporal no puede ser nula");
+		}
 		this.aguaCorporal = aguaCorporal;
 	}
 

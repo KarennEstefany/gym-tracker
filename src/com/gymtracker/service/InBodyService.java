@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.gymtracker.algorithms.OrdenarPorInsercion;
+import com.gymtracker.exceptions.MedicionInvalidaException;
 import com.gymtracker.exceptions.UsuarioInvalidoException;
 import com.gymtracker.model.MedicionInBody;
 import com.gymtracker.model.Usuario;
+import com.gymtracker.model.VariacionInBody;
 
 public class InBodyService {
 
@@ -45,6 +47,13 @@ public class InBodyService {
 		}
 		
 		
+		//se agrega nuevo 
+		if(buscarPorFecha(usuario, fecha) != null) {
+			
+			throw new MedicionInvalidaException("Ya existe una medición en esa fecha");
+		}
+		
+		
 		double imc = calcularImc(peso, usuario.getEstatura());
 		MedicionInBody medicion = new MedicionInBody(siguienteId, usuario, fecha, peso, porcentajeGrasa, masaMuscular, aguaCorporal, imc);
 		
@@ -68,7 +77,7 @@ public class InBodyService {
 			
 			if(m.getUsuario().equals(usuario)) {
 				
-				mediciones.add(m);
+				resultado.add(m);
 			}
 		}
 		
@@ -96,6 +105,50 @@ public class InBodyService {
 		}
 		return Optional.of(ordenadas.get(ordenadas.size() -1));
 	}
+	
+	public VariacionInBody comparar(Usuario usuario, LocalDate fechaAnterior, LocalDate fechaPosterior) {
+		
+		
+		if(fechaAnterior == null || fechaPosterior == null) {
+			
+			
+			throw new MedicionInvalidaException("Debe indicar las dos fechas");
+		}
+		
+		if(!fechaAnterior.isBefore(fechaPosterior)) {
+				
+				throw new MedicionInvalidaException("La primera fecha debe ser anterior a la segunda. ");
+		}
+		
+		if(usuario == null) {
+			
+			throw new UsuarioInvalidoException("Debe indicar un usuario ");
+	}
+		
+		MedicionInBody anterior = buscarPorFecha(usuario, fechaAnterior);
+		MedicionInBody posterior = buscarPorFecha(usuario, fechaPosterior);
+		
+		if(anterior == null || posterior == null) {
+			throw new MedicionInvalidaException("No hay medición en alguna de las fechas indicadas.");
+			
+		}
+		return new VariacionInBody(anterior, posterior);
+	}
+	
+	private MedicionInBody buscarPorFecha(Usuario usuario, LocalDate fecha) {
+		
+		for( MedicionInBody m: mediciones) {
+			
+			if(m.getUsuario().equals(usuario) && m.getFecha().equals(fecha)) {
+				
+				return m;
+			}
+		}
+		return null;
+	}
+	
+	
+	
 	
 	/**
 	 * 
