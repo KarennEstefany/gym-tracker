@@ -54,7 +54,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener{
 		panelRutinas = new PanelRutinas(usuario,servicios.getRutinas(), servicios.getEjercicios());
 		panelEntrenar = new PanelEntrenar(usuario, servicios.getSesiones(), servicios.getRutinas(), servicios.getRecords());
 		panelProgreso = new PanelProgreso(usuario, servicios.getRecords(), servicios.getEjercicios());
-		panelInBody = new PanelInBody(usuario);
+		panelInBody = new PanelInBody(usuario, servicios.getInBody());
 		
 		pestanas = new JTabbedPane();
 		
